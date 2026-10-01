@@ -25,6 +25,12 @@
 | 16 | [alternatives-objections](document/16-alternatives-and-objections.md) | البدائل المجانية والاعتراضات |
 | 17 | [gaps-reframing](document/17-product-gaps-and-reframing.md) | فجوات الفكرة وإعادة التأطير والمخاطر |
 | 18 | [research-update-2026-10](document/18-research-update-2026-10.md) | ملخص تحديث أكتوبر 2026 |
+| 19 | [user-links-evidence-review](document/19-user-links-and-evidence-review.md) | مراجعة روابط المستخدم: رصد TikTok + فيديوهات يوتيوب (مفصولة عن الأدلة) |
+| 20 | [real-household-pain-map](document/20-real-household-pain-map.md) | خريطة الآلام: كل ألم ← وظيفة منتج ← مؤشر نجاح |
+| 21 | [product-core-recurring-value](document/21-product-core-and-recurring-value.md) | نواة المنتج، دورة الحياة، ذاكرة البيت، الاتجاه الثنائي، Hand-over |
+| 22 | [competitive-whitespace](document/22-competitive-whitespace-and-new-concepts.md) | مصفوفة المنافسين الكاملة + المساحة البيضاء (مع Amina وNines) |
+| 23 | [marketing-hooks-landing](document/23-marketing-hooks-and-landing-page.md) | 20 هوكًا أخلاقيًا + صفحة هبوط مقترحة |
+| 24 | [commerce-compliance-tech](document/24-commerce-compliance-and-technology-notes.md) | سلة، الامتثال (وثيقة العمل الحر)، وحدود صوت TTS |
 
 ## فهرس المصادر الأساسية
 
@@ -37,3 +43,13 @@
 ## أهم خلاصة (أكتوبر 2026)
 
 **المشتري الأساسي:** ربة المنزل · **المشتري الثانوي:** مكاتب الاستقدام (B2B) · **المستخدم الأساسي:** العاملة — وتُوزَّع لها مجانًا دائمًا. التفصيل والأدلة في [ملف الشرائح](document/14-buyer-segments-and-purchase-behavior.md).
+
+## أهم خلاصة (التحديث الثاني — أكتوبر 2026، ملفات 19–24)
+
+- **طلب مدفوع مُثبت:** الناس يشترون فعلًا جداول تنظيف متعددة اللغات بـ25–79 ريالًا على TikTok (بمشاهدات حتى 473 ألفًا) — لكن كلها **ثابتة وباتجاه واحد** (من الأسرة للعاملة). التفصيل في [ملف 19](document/19-user-links-and-evidence-review.md).
+- **التميّز تغيّر:** «صوت + 7 لغات + سلامة + مجاني للعاملة» لم يعد تميزًا (منتج Amina يقدمه كله)، و«دليل بيت مخصص» موجود عالميًا (Nines). التركيبة المرشحة كمساحة بيضاء: **ذاكرة بيت سعودي بلغة العاملة + اتجاه ثنائي يحفظ الكرامة + hand-over عند تغيير العاملة + منع المراقبة تصميميًا** — وتحتاج تحقق prior-art قبل أي ادعاء ([ملف 22](document/22-competitive-whitespace-and-new-concepts.md)).
+- **القيمة المتكررة** لا «أول أسبوع»: دورة حياة من 6 مراحل، وأزرار العاملة (فهمت/أحتاج مساعدة/نفد المنتج/خطر) بلا مراقبة ولا كاميرا ولا GPS ([ملف 21](document/21-product-core-and-recurring-value.md)).
+- **تسويق أخلاقي فقط:** 20 هوكًا مستمدًا من آلام موثقة، بلا إهانة للعاملات ولا تعميم على جنسيات ولا إثبات مزيف ([ملف 23](document/23-marketing-hooks-and-landing-page.md)).
+- **الامتثال من المصادر الرسمية فقط:** فيديوهات وثيقة العمل الحر ليست مرجعًا قانونيًا، وممنوع أي بيانات غير حقيقية لأي جهة رسمية ([ملف 24](document/24-commerce-compliance-and-technology-notes.md)).
+
+> **ملاحظة تسمية:** «غيداء» اسم صاحبة الفكرة/المساعدة، وليس اسم المنتج النهائي — اسم المنتج لم يُعتمد بعد.
