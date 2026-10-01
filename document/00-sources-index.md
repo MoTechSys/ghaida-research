@@ -61,3 +61,34 @@
 - `_analysis/market_research.md` — بحث السوق (8,782 بايت).
 - `_analysis/transcripts_voice_notes.md` — تفريغ 22 تسجيلًا صوتيًا (5,710 بايت).
 - `docs/DECISIONS.md`, `docs/HANDOFF.md`, `docs/RUNBOOK.md`, `AGENTS.md`.
+
+## مصادر تحديث Master Research (ملفات 25–36) — أكتوبر 2026
+
+**رسمية/إحصائية خليجية:**
+- [SPA — أرقام مساند H1 2025](https://www.spa.gov.sa/en/N2381974) — 417 ألف عملية استقدام، 345 ألف مستفيد تأمين عقود، +604 آلاف سيرة إعادة توظيف، 229 ألف طلب نقل فرد-لفرد، متوسط الوصول 44 يومًا.
+- [ILO — العمالة المنزلية في الدول العربية](https://www.ilo.org/regions-and-countries/arab-states/domestic-workers-arab-states) — 6.6 مليون عامل منزلي، 12.3% من إجمالي العمل إقليميًا، خُمس إلى ربع القوى العاملة في معظم دول GCC.
+- [ILO — قطر](https://webapps.ilo.org/infostories/en-GB/Stories/Country-Focus/world-cup-qatar.html) — +300 ألف عامل منزلي أغلبهم نساء.
+- [Gulf Migration/CSB-LMIS — الكويت Q1 2025](https://gulfmigration.grc.net/kuwait-population-employed-in-the-domestic-work-sector-by-country-of-citizenship-top-10-countries-q2-2015-q1-2025/) — 745,146 عاملًا منزليًا؛ الهند 311,502، سريلانكا 132,121، الفلبين 132,100، بنغلادش 86,569، نيبال 55,157.
+- [MOHRE — مواد إرشادية للعمالة المنزلية بلغات متعددة](https://www.mohre.gov.ae/en/media-center/video-gallery/guidance-domestic-workers) — (تعذّر الزحف الآلي للصفحة؛ الوجود موثق من فهرس البحث).
+- [LMRA البحرين — الإحصاءات](https://lmra.gov.bh/en/page/show/622) · [CEIC/LMRA — عاملات منزليات غير بحرينيات (يونيو 2023: 56,050 — قديم وجزئي)](https://www.ceicdata.com/en/bahrain/employment-labour-market-regulatory-authority/employment-lmra-domestic-workers-non-bahraini-female).
+- [NCSI عُمان](https://www.ncsi.gov.om/) — إجمالي وافدين ~2.36 مليون (ليس عمالة منزلية).
+
+**تقنية (PWA/ترخيص/أمان):**
+- [web.dev — PWA Installation](https://web.dev/learn/pwa/installation) — iOS بلا install prompt؛ إضافة يدوية عبر Share؛ قيود badging/shortcuts.
+- [web.dev — Offline Data](https://web.dev/learn/pwa/offline-data) — Cache Storage للأصول، IndexedDB للبيانات، storage.persist، والمستخدم يستطيع الحذف دائمًا.
+- [MDN — Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) — أدوات منخفضة المستوى؛ لا سرّ آمنًا داخل HTML قابل للتنزيل.
+- [Cryptolens — Offline License Verification](https://help.cryptolens.io/examples/offline-verification) — signed response + RSA public key؛ قيود الإلغاء الفوري وساعة الجهاز وربط الجهاز.
+- [OWASP — Software Supply Chain Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Software_Supply_Chain_Security_Cheat_Sheet.html) — code signing وprovenance.
+
+**دفع وتجارة وامتثال:**
+- [HyperPay — مقارنة بوابات الدفع السعودية وسجل SAMA](https://www.hyperpay.com/blog/best-payment-gateway-in-saudi-arabia/) — (مصدر طرف له مصلحة تجارية؛ الأسعار موسومة «متغيرة») — mada ~1% مقابل بطاقات 2.25%–3% في البطاقات المنشورة؛ تعميم SAMA 46004436 (24 يوليو 2024).
+- [Moyasar — FAQ](https://moyasar.com/en/resources/faqs/) · [Moyasar](https://moyasar.com/en/) — الأسعار عبر المبيعات.
+- [وزارة التجارة — نظام التجارة الإلكترونية](https://mc.gov.sa/ar/ECC/Pages/default.aspx) · [نص النظام](https://laws.boe.gov.sa/Files/Download/?attId=be4eef55-50be-44e3-b94d-adbb011b5736).
+- [SDAIA — نص PDPL (إنجليزي)](https://sdaia.gov.sa/en/SDAIA/about/Documents/Personal%20Data%20English%20V2-23April2023-%20Reviewed-.pdf) · [دليل تحديد الحد الأدنى من البيانات الشخصية](https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/MinimumPersonalDataDeterminationGuideline/%21ut/p/z0/fY3LCsIwEAC_SDZNSTyrlfogIlS05iILXetisy0x9futfoDHgWEGPNTgBd_cYuJesJv46u1tu1jbTVYpnZ2XRtncHYzZ51qd5lCRwA78f2mq6OhWrgU_YHrMWO491I6FwxiOFF_fV4EJC0oUA8tvX47cUMdCMDzLywdN7I-U/).
+- [منصة العمل الحر](https://freelance.sa/) — خطوات عامة فقط.
+- [سلة](https://salla.com/) · [مساعدة سلة — حماية الحقوق الفكرية للمنتج الرقمي](https://help.salla.sa/article/%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%81%D9%83%D8%B1%D9%8A%D8%A9-%D9%84%D9%84%D9%85%D9%86%D8%AA%D8%AC-%D8%A7%D9%84%D8%B1%D9%82%D9%85%D9%8A-1/djhm5xfcrvl3e1ulrqg8nzts) — روابط متجددة ليست DRM كاملًا.
+
+**منافسون/مرجعيات عالمية (مؤكدة في هذا التحديث):**
+- [Amina — GCC Domestic](https://www.gccdomestic.com/en/amina/) — 7 لغات، صوت ونص، 48+ وحدة، 336 درسًا، check-ins يومية، تنبيهات سلامة <30 ثانية، مجاني للعاملات.
+- [Nines — Dynamic House Manuals](https://ninesliving.com/build-a-dynamic-house-manual-to-match-your-household/) — أدلة بيوت ديناميكية قابلة للتحديث والبحث (سوق فاخر عالمي).
+- [USENIX Security 2022 — Słupska وآخرون](https://www.usenix.org/conference/usenixsecurity22/presentation/slupska-vulnerability) — العاملات يسمّين مراقبة صاحب العمل ضمن أبرز تهديدات الخصوصية (n=32).

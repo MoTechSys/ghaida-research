@@ -53,3 +53,24 @@
 - **الامتثال من المصادر الرسمية فقط:** فيديوهات وثيقة العمل الحر ليست مرجعًا قانونيًا، وممنوع أي بيانات غير حقيقية لأي جهة رسمية ([ملف 24](document/24-commerce-compliance-and-technology-notes.md)).
 
 > **ملاحظة تسمية:** «غيداء» اسم صاحبة الفكرة/المساعدة، وليس اسم المنتج النهائي — اسم المنتج لم يُعتمد بعد.
+
+## تحديث Master Research (أكتوبر 2026 — ملفات 25–36)
+
+دراسة شاملة متعددة المسارات: أسواق الخليج الست، دورة حياة الأسر والعاملات، تجربة الشراء والدفع، هندسة PWA الخفيفة Offline، والترخيص ومكافحة إعادة البيع — مبنية على ملفات 00–24 ومصادر رسمية/أكاديمية أصلية جديدة.
+
+| # | الملف | الموضوع |
+|---|---|---|
+| 25 | [executive-master-brief](document/25-executive-master-brief.md) | الملخص التنفيذي الشامل والقرارات الحاكمة |
+| 26 | [gcc-market-country-by-country](document/26-gcc-market-country-by-country.md) | مصفوفة دول الخليج الست + حدود البيانات |
+| 27 | [lifecycle-and-recurring-problems](document/27-lifecycle-and-recurring-problems.md) | 7 مراحل من قبل الوصول إلى تغيير العاملة ← ميزة ← مقياس نجاح |
+| 28 | [premium-simple-product-concept](document/28-premium-simple-product-concept.md) | «كتاب» فاخر بصريًا بـ5 وجهات؛ قرار Hosted PWA من 3 تصورات |
+| 29 | [purchase-customization-fulfillment-flow](document/29-purchase-customization-fulfillment-flow.md) | تدفق شراء آلي: webhook موقّع → تخصيص → توليد server-side → ترخيص → Offline |
+| 30 | [offline-pwa-performance-architecture](document/30-offline-pwa-performance-architecture.md) | ميزانية أداء + مصفوفة توافق واقعية (لا «كل جهاز في العالم») |
+| 31 | [licensing-anti-resale-threat-model](document/31-licensing-anti-resale-threat-model.md) | Threat Model بـ9 تهديدات: احتمالية/أثر/ضوابط/بقايا خطر معلنة |
+| 32 | [payment-verification-and-fraud](document/32-payment-verification-and-fraud.md) | لا فتح بصورة إيصال؛ webhook موقّع + مراجعة بشرية؛ سجل SAMA |
+| 33 | [privacy-legal-and-ethical-design](document/33-privacy-legal-and-ethical-design.md) | PDPL ونظام التجارة الإلكترونية؛ خط أحمر: لا مراقبة للعاملة |
+| 34 | [business-model-gcc-expansion](document/34-business-model-gcc-expansion.md) | باقات (أسعار موسومة افتراضات) + ترتيب التوسع الخليجي |
+| 35 | [research-gaps-and-fieldwork-plan](document/35-research-gaps-and-fieldwork-plan.md) | 7 فجوات بيانات + معايير Go/No-Go + خطة مقابلات تشمل أسرًا بعاملات قدامى |
+| 36 | [final-build-specification](document/36-final-build-specification.md) | 30/60/90 يومًا بمستويات جهد + Competitive Whitespace بصدق |
+
+**خلاصة القرارات:** المنتج «كتاب بيتك التفاعلي» تسويقيًا (لا كلمة «تطبيق»)، تقنيًا Hosted PWA خفيف يعمل Offline بعد تفعيل أول؛ التوليد والترخيص server-side؛ الحماية طبقات ردع معلنة الحدود بلا ادعاء منع نسخ 100%؛ والقيمة مصممة للأسر ذات العاملات القدامى لا الجدد فقط.
