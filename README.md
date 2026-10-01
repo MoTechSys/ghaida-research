@@ -74,3 +74,25 @@
 | 36 | [final-build-specification](document/36-final-build-specification.md) | 30/60/90 يومًا بمستويات جهد + Competitive Whitespace بصدق |
 
 **خلاصة القرارات:** المنتج «كتاب بيتك التفاعلي» تسويقيًا (لا كلمة «تطبيق»)، تقنيًا Hosted PWA خفيف يعمل Offline بعد تفعيل أول؛ التوليد والترخيص server-side؛ الحماية طبقات ردع معلنة الحدود بلا ادعاء منع نسخ 100%؛ والقيمة مصممة للأسر ذات العاملات القدامى لا الجدد فقط.
+
+## نتائج فريق العمل (أكتوبر 2026 — مجلد team-results/)
+
+حزمة مخرجات فريق العمل المرفوعة كما وردت (نسخ Markdown وHTML لكل وثيقة):
+
+| الملف | الموضوع |
+|---|---|
+| [prd-product-manager](team-results/prd-product-manager.md) | وثيقة متطلبات المنتج (PRD) |
+| [research-gcc-market-tech](team-results/research-gcc-market-tech.md) | بحث سوق الخليج والتقنية |
+| [ux-research](team-results/ux-research.md) | بحث تجربة المستخدم |
+| [localization-gcc](team-results/localization-gcc.md) | التعريب واللغات لدول الخليج |
+| [design-spec-v0.2](team-results/design-spec-v0.2.md) | مواصفة التصميم v0.2 |
+| [architecture-adr-020-027](team-results/architecture-adr-020-027.md) | قرارات معمارية ADR 020–027 |
+| [synthesis-adr-009-014](team-results/synthesis-adr-009-014.md) | توليف قرارات ADR 009–014 |
+| [development-plan](team-results/development-plan.md) | خطة التطوير |
+| [qa-test-plan](team-results/qa-test-plan.md) | خطة اختبار الجودة |
+| [qa-measured-v0.1](team-results/qa-measured-v0.1.md) | قياسات جودة v0.1 |
+| [miftah-app-prototype.html](team-results/miftah-app-prototype.html) | نموذج أولي تفاعلي |
+| [design-prototype-v0.2.html](team-results/design-prototype-v0.2.html) | نموذج التصميم v0.2 |
+| [senior-engineer-team-page.html](team-results/senior-engineer-team-page.html) | صفحة فريق الهندسة |
+| [index.html](team-results/index.html) | فهرس الحزمة |
+| [shot-4.png](team-results/shot-4.png) | لقطة مرجعية |

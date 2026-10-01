@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="description" content="مِفتاح البيت - دليل العاملة المنزلية الذكي">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مفتاح البيت">
+<link rel="manifest" href="manifest.json">
+<title>مِفتاح البيت</title>
+
+<!-- PWA Service Worker Registration -->
+<script>
+// LICENSING & COPY-PROTECTION: Each copy is bound to a household ID
+// embedded at purchase time. The ID is hashed and stored in the app.
+// Unauthorized redistribution is traced via the embedded order ID.
+const APP_VERSION = "1.0.0";
+const HOUSEHOLD_ID = "DEMO-MIFTAH-001"; // يتغير لكل مشتري
+const ORDER_HASH = "sha256:demo_watermark_001"; // بصمة مائية خفية
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registered'))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+
+<style>
+/* === RESET & ROOT === */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #c9a227;
+  --gold-light: #f0d060;
+  --dark: #0d0d1a;
+  --dark2: #1a1a2e;
+  --dark3: #16213e;
+  --accent: #533483;
+  --accent2: #e94560;
+  --text: #f0ece4;
+  --text-muted: #a09880;
+  --card-bg: rgba(255,255,255,0.05);
+  --radius: 16px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --font-ar: 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-ar);
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* === LOADING SCREEN === */
+#loading-screen {
+  position: fixed; inset: 0;
+  background: var(--dark);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s;
+}
+.loading-logo {
+  font-size: 4rem; margin-bottom: 1rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.loading-text {
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+.loading-bar {
+  width: 200px; height: 3px;
+  background: var(--dark3);
+  border-radius: 2px; margin-top: 2rem; overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  animation: load 1.2s ease-out forwards;
+}
+@keyframes load { from { width: 0 } to { width: 100% } }
+@keyframes pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.05) } }
+
+/* === MAIN APP === */
+#app { display: none; min-height: 100vh; }
+
+/* === HEADER === */
+.app-header {
+  background: linear-gradient(135deg, var(--dark2), var(--dark3));
+  border-bottom: 1px solid rgba(201,162,39,0.2);
+  padding: 1rem 1.5rem;
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-brand {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.brand-icon { font-size: 1.8rem; }
+.brand-name {
+  font-size: 1.2rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.brand-sub { font-size: 0.7rem; color: var(--text-muted); }
+.header-actions { display: flex; gap: 0.5rem; }
+.btn-icon {
+  background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 0.5rem 0.75rem;
+  color: var(--text); cursor: pointer; font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.btn-icon:hover { background: rgba(201,162,39,0.2); border-color: var(--gold); }
+
+/* === NAV TABS === */
+.nav-tabs {
+  display: flex; overflow-x: auto;
+  background: var(--dark2);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  flex: 0 0 auto; padding: 0.875rem 1.25rem;
+  font-size: 0.85rem; color: var(--text-muted);
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
+}
+.nav-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  background: rgba(201,162,39,0.05);
+}
+.nav-tab:hover { color: var(--text); }
+
+/* === CONTENT === */
+.content { padding: 1.25rem; max-width: 640px; margin: 0 auto; }
+.tab-pane { display: none; animation: fadeIn 0.3s ease; }
+.tab-pane.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: none } }
+
+/* === HERO CARD === */
+.hero-card {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--dark3) 100%);
+  border-radius: var(--radius); padding: 2rem 1.5rem;
+  text-align: center; margin-bottom: 1.5rem;
+  border: 1px solid rgba(201,162,39,0.2);
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; top: -50%; right: -20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(201,162,39,0.15), transparent 70%);
+  border-radius: 50%;
+}
+.hero-emoji { font-size: 3.5rem; margin-bottom: 0.75rem; }
+.hero-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
+.hero-title span {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-sub { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+/* === SECTION HEADER === */
+.section-header {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1rem; margin-top: 0.5rem;
+}
+.section-title { font-size: 1rem; font-weight: 600; color: var(--gold); }
+.section-divider {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(201,162,39,0.3), transparent);
+}
+
+/* === CARDS === */
+.card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+.card:hover { border-color: rgba(201,162,39,0.3); }
+
+/* === PHRASE CARDS (lazy audio) === */
+.phrase-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 0.75rem; align-items: center;
+  transition: all 0.2s;
+}
+.phrase-card:hover { border-color: rgba(201,162,39,0.2); }
+.phrase-ar { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+.phrase-trans { font-size: 0.8rem; color: var(--text-muted); }
+.phrase-worker { font-size: 0.85rem; color: var(--gold-light); margin-top: 0.3rem; }
+.play-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  border: none; cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(201,162,39,0.3);
+}
+.play-btn:hover { transform: scale(1.08); }
+.play-btn.playing { background: linear-gradient(135deg, var(--accent2), #ff7070); }
+.play-btn.loading { opacity: 0.6; animation: pulse 0.8s infinite; }
+
+/* === SCHEDULE === */
+.schedule-grid { display: grid; gap: 0.6rem; }
+.schedule-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--card-bg); border-radius: 10px; padding: 0.75rem 1rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer; transition: all 0.2s;
+}
+.schedule-item:hover { border-color: rgba(201,162,39,0.2); }
+.schedule-item.done { opacity: 0.5; }
+.schedule-item.done .sched-text { text-decoration: line-through; }
+.sched-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid rgba(201,162,39,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0; transition: all 0.2s;
+}
+.schedule-item.done .sched-check {
+  background: var(--gold); border-color: var(--gold);
+}
+.sched-time { font-size: 0.75rem; color: var(--text-muted); min-width: 3rem; }
+.sched-text { font-size: 0.9rem; flex: 1; }
+.sched-emoji { font-size: 1.1rem; }
+
+/* === LANG SELECTOR === */
+.lang-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.lang-btn {
+  background: var(--card-bg); border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 1rem; text-align: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.lang-btn.active { border-color: var(--gold); background: rgba(201,162,39,0.1); }
+.lang-btn:hover { border-color: rgba(201,162,39,0.4); }
+.lang-flag { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+.lang-name { font-size: 0.85rem; font-weight: 600; }
+.lang-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* === CATEGORIES === */
+.cat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.cat-btn {
+  background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.25rem 1rem; text-align: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.cat-btn.active { border-color: var(--gold); background: rgba(201,162,39,0.1); }
+.cat-btn:hover { border-color: rgba(201,162,39,0.3); }
+.cat-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+.cat-name { font-size: 0.85rem; font-weight: 600; }
+
+/* === PURCHASE FLOW === */
+.purchase-steps { display: grid; gap: 1rem; }
+.step-card {
+  background: var(--card-bg); border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.step-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; color: var(--dark);
+  flex-shrink: 0;
+}
+.step-title { font-weight: 600; }
+.step-body { padding: 1rem 1.25rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+.step-body strong { color: var(--text); }
+
+/* === PROTECTION BADGE === */
+.protection-badge {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(201,162,39,0.08);
+  border: 1px solid rgba(201,162,39,0.2);
+  border-radius: 8px; padding: 0.6rem 0.875rem;
+  font-size: 0.8rem; color: var(--gold-light);
+  margin-top: 0.75rem;
+}
+
+/* === OFFLINE INDICATOR === */
+.offline-bar {
+  background: #c0392b; color: #fff;
+  text-align: center; padding: 0.4rem;
+  font-size: 0.8rem; display: none;
+}
+body.offline .offline-bar { display: block; }
+
+/* === INSTALL BANNER === */
+.install-banner {
+  background: linear-gradient(135deg, var(--accent), var(--dark3));
+  border: 1px solid rgba(201,162,39,0.3);
+  border-radius: 12px; padding: 1rem 1.25rem;
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem; cursor: pointer;
+  display: none;
+}
+.install-banner.show { display: flex; }
+.install-text { flex: 1; font-size: 0.85rem; }
+.install-text strong { display: block; margin-bottom: 0.2rem; }
+.install-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--dark); border: none; border-radius: 8px;
+  padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+
+/* === STAT CARDS === */
+.stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+.stat-card {
+  background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.25rem; text-align: center;
+}
+.stat-num {
+  font-size: 1.6rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: block; margin-bottom: 0.3rem;
+}
+.stat-label { font-size: 0.75rem; color: var(--text-muted); }
+
+/* === RESPONSIVE === */
+@media (max-width: 360px) {
+  .cat-grid, .lang-grid, .stats-grid { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 1.3rem; }
+}
+</style>
+</head>
+
+<body>
+<!-- OFFLINE BAR -->
+<div class="offline-bar">⚠️ أنت غير متصل بالإنترنت — التطبيق يعمل بالكامل دون اتصال</div>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-logo">🗝️</div>
+  <div class="loading-text">مِفتاح البيت</div>
+  <div style="font-size:0.8rem;color:#a09880;margin-top:0.5rem;">جارٍ التحضير...</div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="offline-bar">⚠️ وضع بدون إنترنت — التطبيق يعمل كاملاً</div>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-brand">
+      <span class="brand-icon">🗝️</span>
+      <div>
+        <div class="brand-name">مِفتاح البيت</div>
+        <div class="brand-sub">دليلك لعاملتك المنزلية</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="toggleDarkMode()" title="تغيير المظهر">🌙</button>
+      <button class="btn-icon" onclick="showLicenseInfo()" title="معلومات الترخيص">🔐</button>
+    </div>
+  </header>
+
+  <!-- INSTALL BANNER -->
+  <div class="install-banner" id="installBanner">
+    <span style="font-size:2rem">📱</span>
+    <div class="install-text">
+      <strong>ثبّت مفتاح البيت على جهازك</strong>
+      يعمل بدون إنترنت في أي وقت
+    </div>
+    <button class="install-btn" onclick="installApp()">تثبيت</button>
+  </div>
+
+  <!-- NAV TABS -->
+  <nav class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('home',this)">🏠 الرئيسية</div>
+    <div class="nav-tab" onclick="switchTab('phrases',this)">💬 العبارات</div>
+    <div class="nav-tab" onclick="switchTab('schedule',this)">📅 الجدول</div>
+    <div class="nav-tab" onclick="switchTab('rules',this)">📋 قواعد البيت</div>
+    <div class="nav-tab" onclick="switchTab('purchase',this)">🛒 امتلكي النسخة الكاملة</div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HOME TAB -->
+    <div class="tab-pane active" id="tab-home">
+      <div class="hero-card">
+        <div class="hero-emoji">🗝️</div>
+        <h1 class="hero-title">مرحباً بك في<br><span>مِفتاح البيت</span></h1>
+        <p class="hero-sub">دليلك الذكي لتوصيل أوامر بيتك لعاملتك المنزلية بأي لغة — يعمل بدون إنترنت، طلقة طلقة طلقة</p>
+      </div>
+
+      <!-- STATS -->
+      <div class="section-header">
+        <span class="section-title">لماذا مِفتاح البيت؟</span>
+        <div class="section-divider"></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-num">+5.5M</span><span class="stat-label">عاملة منزلية في الخليج</span></div>
+        <div class="stat-card"><span class="stat-num">90%</span><span class="stat-label">أسر كويتية معها عاملة</span></div>
+        <div class="stat-card"><span class="stat-num">6</span><span class="stat-label">لغات مدعومة</span></div>
+        <div class="stat-card"><span class="stat-num">بدون نت</span><span class="stat-label">يعمل في أي مكان</span></div>
+      </div>
+
+      <!-- QUICK ACCESS -->
+      <div class="section-header">
+        <span class="section-title">وصول سريع</span>
+        <div class="section-divider"></div>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-btn active" onclick="goToPhraseCat('cleaning')">
+          <span class="cat-icon">🧹</span>
+          <span class="cat-name">التنظيف</span>
+        </div>
+        <div class="cat-btn" onclick="goToPhraseCat('cooking')">
+          <span class="cat-icon">🍳</span>
+          <span class="cat-name">الطبخ</span>
+        </div>
+        <div class="cat-btn" onclick="goToPhraseCat('children')">
+          <span class="cat-icon">👶</span>
+          <span class="cat-name">الأطفال</span>
+        </div>
+        <div class="cat-btn" onclick="goToPhraseCat('safety')">
+          <span class="cat-icon">🔒</span>
+          <span class="cat-name">السلامة والحقوق</span>
+        </div>
+      </div>
+
+      <!-- LANGUAGE SELECTOR -->
+      <div class="section-header">
+        <span class="section-title">اختاري لغة عاملتك</span>
+        <div class="section-divider"></div>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-btn active" onclick="selectLang('tl',this)">
+          <span class="lang-flag">🇵🇭</span>
+          <span class="lang-name">فلبينية</span>
+          <div class="lang-sub">Tagalog</div>
+        </div>
+        <div class="lang-btn" onclick="selectLang('am',this)">
+          <span class="lang-flag">🇪🇹</span>
+          <span class="lang-name">إثيوبية</span>
+          <div class="lang-sub">Amharic</div>
+        </div>
+        <div class="lang-btn" onclick="selectLang('si',this)">
+          <span class="lang-flag">🇱🇰</span>
+          <span class="lang-name">سريلانكية</span>
+          <div class="lang-sub">Sinhala</div>
+        </div>
+        <div class="lang-btn" onclick="selectLang('id',this)">
+          <span class="lang-flag">🇮🇩</span>
+          <span class="lang-name">إندونيسية</span>
+          <div class="lang-sub">Bahasa</div>
+        </div>
+        <div class="lang-btn" onclick="selectLang('hi',this)">
+          <span class="lang-flag">🇮🇳</span>
+          <span class="lang-name">هندية</span>
+          <div class="lang-sub">Hindi</div>
+        </div>
+        <div class="lang-btn" onclick="selectLang('en',this)">
+          <span class="lang-flag">🇬🇧</span>
+          <span class="lang-name">إنجليزية</span>
+          <div class="lang-sub">English</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHRASES TAB -->
+    <div class="tab-pane" id="tab-phrases">
+      <div class="section-header">
+        <span class="section-title" id="phrases-cat-title">💬 التنظيف</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Category selector -->
+      <div style="display:flex;gap:0.5rem;overflow-x:auto;margin-bottom:1.25rem;scrollbar-width:none">
+        <button class="btn-icon active" style="font-size:0.8rem" onclick="filterCat('cleaning',this)">🧹 تنظيف</button>
+        <button class="btn-icon" style="font-size:0.8rem" onclick="filterCat('cooking',this)">🍳 طبخ</button>
+        <button class="btn-icon" style="font-size:0.8rem" onclick="filterCat('children',this)">👶 أطفال</button>
+        <button class="btn-icon" style="font-size:0.8rem" onclick="filterCat('safety',this)">🔒 سلامة</button>
+        <button class="btn-icon" style="font-size:0.8rem" onclick="filterCat('daily',this)">☀️ يومية</button>
+      </div>
+
+      <!-- NOTE: Audio is loaded LAZILY (only when user taps play) — fixes QA memory issue -->
+      <div id="phrases-container"></div>
+      <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:1rem">
+        🎧 اضغطي على ▶ لتشغيل الصوت بلغة عاملتك<br>
+        الصوت يُحمَّل عند الطلب فقط (توفيراً للذاكرة)
+      </p>
+    </div>
+
+    <!-- SCHEDULE TAB -->
+    <div class="tab-pane" id="tab-schedule">
+      <div class="section-header">
+        <span class="section-title">📅 جدول المهام اليومي</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:600">اليوم: <span id="today-date"></span></span>
+          <button class="btn-icon" onclick="resetSchedule()" style="font-size:0.75rem">↺ إعادة</button>
+        </div>
+      </div>
+
+      <div class="schedule-grid" id="schedule-list"></div>
+
+      <div class="card" style="margin-top:1rem;border-color:rgba(201,162,39,0.2)">
+        <div style="font-size:0.85rem;color:var(--text-muted);text-align:center">
+          💾 الجدول يُحفظ تلقائياً على الجهاز<br>
+          حتى بدون إنترنت
+        </div>
+      </div>
+    </div>
+
+    <!-- RULES TAB -->
+    <div class="tab-pane" id="tab-rules">
+      <div class="section-header">
+        <span class="section-title">📋 قواعد بيتنا</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:0.9rem;line-height:1.9">
+          <div style="font-weight:700;margin-bottom:0.75rem;color:var(--gold)">🏠 القواعد الأساسية</div>
+          <div style="display:grid;gap:0.6rem">
+            <div style="display:flex;gap:0.5rem;align-items:flex-start">
+              <span>✅</span><span>ساعات العمل: <strong>8 صباحاً – 8 مساءً</strong></span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start">
+              <span>✅</span><span>يوم الراحة: <strong>الجمعة</strong></span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start">
+              <span>✅</span><span>لا تفتحي الباب لغرباء</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start">
+              <span>✅</span><span>الجوال للتواصل مع الأهل فقط بعد الساعة 8</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:flex-start">
+              <span>✅</span><span>الأطفال في العناية دائماً</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top:1.25rem">
+        <span class="section-title">⚖️ حقوقك القانونية</span>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="card" style="border-color:rgba(83,52,131,0.4)">
+        <div style="font-size:0.85rem;line-height:1.8;color:var(--text-muted)">
+          <div id="rights-content">
+            <!-- يتغير بحسب الدولة المختارة -->
+            <div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇸🇦 المملكة العربية السعودية</div>
+            <div>• ساعات العمل: لا تزيد عن 10 ساعات/يوم</div>
+            <div>• يوم راحة أسبوعي مدفوع</div>
+            <div>• إجازة سنوية: 30 يوم بعد سنة</div>
+            <div>• طوارئ: 911 | شكاوى: 19911</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PURCHASE TAB -->
+    <div class="tab-pane" id="tab-purchase">
+      <div class="hero-card" style="margin-bottom:1.5rem">
+        <div class="hero-emoji">👑</div>
+        <h2 class="hero-title">النسخة <span>الكاملة</span></h2>
+        <p class="hero-sub">خاصة لبيتك وحدك — لا تُباع مرتين</p>
+      </div>
+
+      <div class="purchase-steps">
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">1</div>
+            <div class="step-title">اختاري الحزمة</div>
+          </div>
+          <div class="step-body">
+            <strong>حزمة البيت الواحد</strong> — 99 ريال<br>
+            لغة واحدة، جهازان (جوالك + جوال العاملة)<br><br>
+            <strong>حزمة البيت الكبير</strong> — 149 ريال<br>
+            كل اللغات الست، 3 أجهزة، يشمل زر «نقل لعاملة جديدة»
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">2</div>
+            <div class="step-title">الدفع والتحقق</div>
+          </div>
+          <div class="step-body">
+            حوّلي المبلغ على الحساب، ثم<br>
+            <strong>ارفعي صورة إشعار الدفع</strong> هنا.<br>
+            الموقع يحللها تلقائياً ويرسل رمز تفعيل لجوالك.
+            <div class="protection-badge">
+              🔐 كل نسخة تحمل رقم طلبك الخاص — يتتبع أي تسريب مباشرةً لصاحبته
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">3</div>
+            <div class="step-title">التفعيل والتثبيت</div>
+          </div>
+          <div class="step-body">
+            بعد التحقق، تحملين نسختك الشخصية مباشرةً.<br>
+            تثبّتينها على الجوال مثل أي تطبيق.<br>
+            <strong>تشتغل بدون إنترنت بالكامل.</strong>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">4</div>
+            <div class="step-title">تغيير العاملة؟</div>
+          </div>
+          <div class="step-body">
+            زر «نقل لعاملة جديدة» يمسح بيانات العاملة القديمة ويفتح الجهاز لعاملة جديدة — بدون أي تواصل إضافي معنا.
+          </div>
+        </div>
+      </div>
+
+      <div class="protection-badge" style="margin-top:1rem;margin-bottom:1rem">
+        🛡️ الحماية: كل نسخة مخصصة لبيتك، باسمك، على أجهزتك فقط. إعادة البيع لا تفيد أحداً — الكود يعرف بيته.
+      </div>
+
+      <button onclick="alert('سيتم تحويلك لصفحة الطلب — هذا نموذج أولي')" style="width:100%;padding:1rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;border-radius:12px">
+        🛒 اطلبي نسختك الآن
+      </button>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const PHRASES = {
+  cleaning: [
+    { ar: "نظّفي الأرضية من فضلك", trans: "Please mop the floor", worker: { tl: "Pakikundian ang sahig", am: "ወለሉን ያጽዱ", si: "පතල් සෝදන්න", id: "Tolong pel lantainya", hi: "कृपया फर्श साफ करें", en: "Please mop the floor" } },
+    { ar: "اغسلي الحمامات بعناية", trans: "Clean the bathrooms carefully", worker: { tl: "Linisin ang banyo nang mabuti", am: "መፀዳጃ ቤቱን በጥንቃቄ ያጽዱ", si: "නාන කාමර හොඳින් සෝදන්න", id: "Bersihkan kamar mandi dengan teliti", hi: "बाथरूम ध्यान से साफ करें", en: "Clean the bathrooms carefully" } },
+    { ar: "رتّبي الغرف بعد الاستيقاظ", trans: "Tidy the rooms after waking up", worker: { tl: "Ayusin ang mga silid pagkatapos magising", am: "ከእንቅልፍ በኋላ ክፍሎቹን ያስተካክሉ", si: "අවදි වීමෙන් පසු කාමර පිළිවෙළ කරන්න", id: "Rapikan kamar setelah bangun", hi: "जागने के बाद कमरे साफ करें", en: "Tidy the rooms after waking up" } },
+    { ar: "مسحي الأثاث من الغبار", trans: "Dust the furniture", worker: { tl: "Punasan ang alikabok sa muwebles", am: "ዕቃዎቹን ከአቧራ ያጽዱ", si: "ගෘහ භාණ්ඩ දූවිලි පිස දමන්න", id: "Bersihkan debu di furnitur", hi: "फर्नीचर की धूल साफ करें", en: "Dust the furniture" } },
+  ],
+  cooking: [
+    { ar: "اطبخي الأرز على نار هادئة", trans: "Cook the rice on low heat", worker: { tl: "Lutuin ang kanin sa mahinang apoy", am: "ሩዙን በዝቅተኛ ሙቀት ያብስሉ", si: "හොරණෑ ගින්නේ බත් උයන්න", id: "Masak nasi dengan api kecil", hi: "धीमी आंच पर चावल पकाएं", en: "Cook the rice on low heat" } },
+    { ar: "قدّمي الغداء الساعة 12", trans: "Serve lunch at 12 o'clock", worker: { tl: "Ihanda ang tanghalian ng ika-12", am: "ምሳውን በ12 ሰዓት ያቅርቡ", si: "12 ට දිවා ආහාරය ගෙනෙන්න", id: "Sajikan makan siang jam 12", hi: "दोपहर 12 बजे लंच परोसें", en: "Serve lunch at 12 o'clock" } },
+    { ar: "لا تضيفي ملحاً كثيراً", trans: "Don't add too much salt", worker: { tl: "Huwag magdagdag ng maraming asin", am: "ብዙ ጨው አይጨምሩ", si: "ලුණු වැඩිය නොදමන්න", id: "Jangan tambah terlalu banyak garam", hi: "ज़्यादा नमक मत डालें", en: "Don't add too much salt" } },
+  ],
+  children: [
+    { ar: "لا تتركي الأطفال وحدهم أبداً", trans: "Never leave the children alone", worker: { tl: "Huwag iwan ang mga bata nang mag-isa", am: "ልጆቹን ብቻ አትተዉ", si: "දරුවන් කිසිදා තනිව නොතබන්න", id: "Jangan pernah tinggalkan anak-anak sendirian", hi: "बच्चों को कभी अकेला मत छोड़ें", en: "Never leave the children alone" } },
+    { ar: "أعطي الدواء للطفل بعد الأكل", trans: "Give the child medicine after eating", worker: { tl: "Ibigay ang gamot pagkatapos kumain", am: "ከምሳ በኋላ ለህጻናት መድሃኒት ስጥ", si: "කෑමෙන් පසු දරුවාට බෙහෙත් දෙන්න", id: "Berikan obat pada anak setelah makan", hi: "खाने के बाद बच्चे को दवा दें", en: "Give the child medicine after eating" } },
+  ],
+  safety: [
+    { ar: "أنتِ تعملين في مكان آمن ولك حقوقك", trans: "You work in a safe place and have rights", worker: { tl: "Nagtatrabaho ka sa ligtas na lugar at may karapatan ka", am: "በደህና ቦታ ትሰሪያለሽ እና መብቶችሽ አሉ", si: "ඔබ ආරක්ෂිත ස්ථානයක සේවය කරයි, ඔබට අයිතිවාසිකම් ඇත", id: "Kamu bekerja di tempat yang aman dan punya hak", hi: "आप एक सुरक्षित जगह काम करती हैं और आपके अधिकार हैं", en: "You work in a safe place and have rights" } },
+    { ar: "لا تفتحي الباب لأحد غيرنا", trans: "Don't open the door for anyone but us", worker: { tl: "Huwag buksan ang pinto para sa sinumang hindi kami", am: "ለሌሎች ሰዎች ደጁን አትክፈቺ", si: "අපෙ ඇරෙන්න වෙනත් කිසිවකුට දොරට නොලෝ", id: "Jangan buka pintu untuk siapa pun selain kami", hi: "हमारे अलावा किसी के लिए दरवाज़ा मत खोलें", en: "Don't open the door for anyone but us" } },
+  ],
+  daily: [
+    { ar: "صباح الخير، هل أنتِ بخير؟", trans: "Good morning, are you okay?", worker: { tl: "Magandang umaga, kumusta ka?", am: "እንደምን አደርሽ?", si: "සුබ උදෑසනක්, ඔබ සුවයේ ද?", id: "Selamat pagi, apa kabar?", hi: "शुभ प्रभात, क्या आप ठीक हैं?", en: "Good morning, are you okay?" } },
+    { ar: "شكراً على عملك اليوم", trans: "Thank you for your work today", worker: { tl: "Salamat sa iyong trabaho ngayon", am: "ለዛሬ ስራሽ እናመሰግናለን", si: "අද ඔබේ කාර්යයට ස්තූතියි", id: "Terima kasih atas pekerjaan anda hari ini", hi: "आज के काम के लिए शुक्रिया", en: "Thank you for your work today" } },
+  ]
+};
+
+const SCHEDULE_ITEMS = [
+  { id:1, time:"7:00", emoji:"🌅", text:"إيقاظ الأطفال" },
+  { id:2, time:"7:30", emoji:"🍳", text:"تحضير الفطور" },
+  { id:3, time:"9:00", emoji:"🧹", text:"تنظيف غرف النوم" },
+  { id:4, time:"10:00", emoji:"👕", text:"الغسيل" },
+  { id:5, time:"11:00", emoji:"🧽", text:"تنظيف المطبخ" },
+  { id:6, time:"12:00", emoji:"🍽️", text:"تحضير الغداء" },
+  { id:7, time:"13:00", emoji:"😴", text:"استراحة الأطفال" },
+  { id:8, time:"15:00", emoji:"🧴", text:"تنظيف الحمامات" },
+  { id:9, time:"16:00", emoji:"🌿", text:"العناية بالحديقة" },
+  { id:10, time:"18:00", emoji:"🍲", text:"تحضير العشاء" },
+  { id:11, time:"20:00", emoji:"✅", text:"انتهاء الدوام" },
+];
+
+const RIGHTS_BY_COUNTRY = {
+  sa: `<div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇸🇦 المملكة العربية السعودية</div>
+       <div>• ساعات العمل: لا تزيد عن 10 ساعات/يوم</div>
+       <div>• يوم راحة أسبوعي مدفوع</div>
+       <div>• إجازة سنوية: 30 يوم بعد سنة</div>
+       <div>• طوارئ: 911 | شكاوى: 19911</div>`,
+  kw: `<div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇰🇼 الكويت</div>
+       <div>• ساعات العمل: لا تزيد عن 12 ساعة/يوم</div>
+       <div>• إجازة سنوية: 30 يوم</div>
+       <div>• طوارئ: 112 | شكاوى: 80060</div>`,
+  ae: `<div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇦🇪 الإمارات العربية المتحدة</div>
+       <div>• ساعات العمل: 9 ساعات/يوم</div>
+       <div>• إجازة سنوية: 30 يوم</div>
+       <div>• طوارئ: 999 | شكاوى: 800-MOHRE</div>`,
+  qa: `<div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇶🇦 قطر</div>
+       <div>• ساعات العمل: لا تزيد عن 10 ساعات/يوم</div>
+       <div>• إجازة سنوية: 3 أسابيع</div>
+       <div>• طوارئ: 999 | شكاوى: 16008</div>`,
+  om: `<div style="color:var(--gold);font-weight:600;margin-bottom:0.5rem">🇴🇲 سلطنة عُمان (محدّث أكتوبر 2025)</div>
+       <div>• ساعات العمل: لا تزيد عن 12 ساعة/يوم</div>
+       <div>• إجازة سنوية: 21 يوم</div>
+       <div>• طوارئ: 9999</div>`,
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let currentLang = 'tl';
+let currentCat = 'cleaning';
+let deferredInstallPrompt = null;
+let scheduleState = JSON.parse(localStorage.getItem('miftah_schedule') || '{}');
+
+// ============================================================
+// LAZY AUDIO — loads only on tap (fixes QA memory issue)
+// ============================================================
+const audioCache = {};
+
+function playPhrase(btn, phraseText) {
+  // Mark playing
+  const allBtns = document.querySelectorAll('.play-btn');
+  allBtns.forEach(b => { if(b !== btn) { b.textContent = '▶'; b.classList.remove('playing'); } });
+
+  if (btn.classList.contains('playing')) {
+    // Pause
+    if (audioCache['current']) { audioCache['current'].pause(); audioCache['current'].currentTime = 0; }
+    btn.textContent = '▶'; btn.classList.remove('playing');
+    return;
+  }
+
+  btn.textContent = '⏳'; btn.classList.add('loading');
+
+  // Use Web Speech API for demo (production: pre-recorded audio files per language)
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(phraseText);
+    const langMap = { tl:'fil-PH', am:'am-ET', si:'si-LK', id:'id-ID', hi:'hi-IN', en:'en-US' };
+    utt.lang = langMap[currentLang] || 'en-US';
+    utt.rate = 0.85;
+    utt.onstart = () => { btn.textContent = '⏸'; btn.classList.remove('loading'); btn.classList.add('playing'); };
+    utt.onend = () => { btn.textContent = '▶'; btn.classList.remove('playing'); };
+    utt.onerror = () => { btn.textContent = '▶'; btn.classList.remove('playing','loading'); };
+    window.speechSynthesis.speak(utt);
+  } else {
+    // Fallback: simulate
+    btn.textContent = '▶'; btn.classList.remove('loading');
+    alert('الصوت غير مدعوم على هذا المتصفح — في النسخة الكاملة: صوت مسجل مدمج');
+  }
+}
+
+// ============================================================
+// RENDER PHRASES
+// ============================================================
+function renderPhrases(cat) {
+  currentCat = cat;
+  const container = document.getElementById('phrases-container');
+  const items = PHRASES[cat] || [];
+  const catTitles = { cleaning:'🧹 التنظيف', cooking:'🍳 الطبخ', children:'👶 الأطفال', safety:'🔒 السلامة والحقوق', daily:'☀️ تعابير يومية' };
+  document.getElementById('phrases-cat-title').textContent = catTitles[cat] || '💬 العبارات';
+
+  container.innerHTML = items.map((p, i) => {
+    const workerText = p.worker[currentLang] || p.trans;
+    return `<div class="phrase-card">
+      <div>
+        <div class="phrase-ar">${p.ar}</div>
+        <div class="phrase-trans">${p.trans}</div>
+        <div class="phrase-worker">🗣 بلغة عاملتك: ${workerText}</div>
+      </div>
+      <button class="play-btn" onclick="playPhrase(this, '${workerText.replace(/'/g,"\\'")}')" title="تشغيل الصوت">▶</button>
+    </div>`;
+  }).join('');
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.nav-tabs~.content .btn-icon').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPhrases(cat);
+}
+
+// ============================================================
+// SCHEDULE
+// ============================================================
+function renderSchedule() {
+  const today = new Date();
+  const dateKey = today.toISOString().split('T')[0];
+  document.getElementById('today-date').textContent = today.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const list = document.getElementById('schedule-list');
+  list.innerHTML = SCHEDULE_ITEMS.map(item => {
+    const key = `${dateKey}_${item.id}`;
+    const done = scheduleState[key];
+    return `<div class="schedule-item ${done?'done':''}" onclick="toggleSchedule('${key}',this)">
+      <div class="sched-check">${done?'✓':''}</div>
+      <span class="sched-emoji">${item.emoji}</span>
+      <span class="sched-text">${item.text}</span>
+      <span class="sched-time">${item.time}</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleSchedule(key, el) {
+  scheduleState[key] = !scheduleState[key];
+  localStorage.setItem('miftah_schedule', JSON.stringify(scheduleState));
+  el.classList.toggle('done');
+  el.querySelector('.sched-check').textContent = scheduleState[key] ? '✓' : '';
+}
+
+function resetSchedule() {
+  const today = new Date().toISOString().split('T')[0];
+  SCHEDULE_ITEMS.forEach(item => { delete scheduleState[`${today}_${item.id}`]; });
+  localStorage.setItem('miftah_schedule', JSON.stringify(scheduleState));
+  renderSchedule();
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function switchTab(tab, el) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'phrases') renderPhrases(currentCat);
+  if (tab === 'schedule') renderSchedule();
+}
+
+function goToPhraseCat(cat) {
+  currentCat = cat;
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  tabs[1].classList.add('active');
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-phrases').classList.add('active');
+  renderPhrases(cat);
+}
+
+// ============================================================
+// LANGUAGE
+// ============================================================
+function selectLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPhrases(currentCat);
+}
+
+// ============================================================
+// INSTALL PWA
+// ============================================================
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById('installBanner').classList.add('show');
+});
+
+function installApp() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(() => {
+    deferredInstallPrompt = null;
+    document.getElementById('installBanner').classList.remove('show');
+  });
+}
+
+// ============================================================
+// LICENSE INFO
+// ============================================================
+function showLicenseInfo() {
+  alert(`مِفتاح البيت — معلومات الترخيص\n\nرقم البيت: ${HOUSEHOLD_ID}\nالإصدار: ${APP_VERSION}\n\nهذه النسخة مخصصة لبيتك وحدك.\nإعادة البيع أو المشاركة تنتهك شروط الاستخدام وتتعرضين للمساءلة القانونية.\n\nكل نسخة تحمل بصمة رقمية خفية تعرّف المصدر.`);
+}
+
+// ============================================================
+// DARK MODE / OFFLINE
+// ============================================================
+function toggleDarkMode() {
+  document.body.classList.toggle('light-mode');
+}
+
+window.addEventListener('online', () => document.body.classList.remove('offline'));
+window.addEventListener('offline', () => document.body.classList.add('offline'));
+if (!navigator.onLine) document.body.classList.add('offline');
+
+// ============================================================
+// BOOT
+// ============================================================
+window.addEventListener('load', () => {
+  renderPhrases('cleaning');
+  renderSchedule();
+
+  // Hide loading, show app
+  setTimeout(() => {
+    const ls = document.getElementById('loading-screen');
+    ls.style.opacity = '0';
+    setTimeout(() => {
+      ls.style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    }, 500);
+  }, 1200);
+});
+</script>
+</body>
+</html>

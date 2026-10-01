@@ -1,0 +1,228 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مواصفة التصميم v0.2</title><style>
+:root{--bg:#fdf7f8;--ink:#3a1f2b;--accent:#8a2a4a;--gold:#b8943f;--card:#fff;--muted:#7a5c68}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Naskh Arabic','Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}
+header{background:linear-gradient(135deg,#5a1a33,#8a2a4a);color:#fff;padding:28px 18px;text-align:center}
+header h1{margin:0;font-size:26px}header p{margin:6px 0 0;opacity:.9;font-size:14px}
+nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #eedbe2;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;justify-content:center;z-index:9}
+nav a{text-decoration:none;color:var(--accent);border:1px solid #eedbe2;border-radius:20px;padding:4px 12px;font-size:13px;background:#fff}
+main{max-width:980px;margin:0 auto;padding:18px}
+.card{background:var(--card);border:1px solid #eedbe2;border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(90,26,51,.05)}
+.card h2{margin-top:0;color:var(--accent);font-size:20px}.card .by{color:var(--muted);font-size:13px;margin-bottom:8px}
+.card a.btn{display:inline-block;margin:4px 6px 4px 0;padding:6px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-size:13px}
+.card a.btn.alt{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0;display:block;overflow-x:auto}th,td{border:1px solid #eedbe2;padding:6px 10px;text-align:right}th{background:#f8e9ee}
+pre{background:#f6eef1;padding:10px;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;font-size:12px}code{font-size:13px}
+.doc{max-width:980px;margin:0 auto;padding:18px}.doc .top{margin-bottom:10px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;background:#f8e9ee;color:var(--accent);margin-inline-start:6px}
+.warn{background:#fff6e5;border:1px solid #f0d9a6;border-radius:10px;padding:10px 14px;font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+</style></head><body><header><h1>مواصفة التصميم v0.2</h1><p>مشروع غيداء · نتائج الفريق · 1 أكتوبر 2026</p></header><div class="doc"><p class=top><a href=index.html>← الرجوع للصفحة الرئيسية</a></p><h1 id="v02">«مِفتاح البيت» — مواصفة التصميم v0.2</h1>
+<p>مصمم واجهة المستخدم · 2026-10-01 · ملحق: <code>miftah-albait-prototype-v0.2.html</code> (303KB، يشتغل بدون إنترنت، 7 شاشات، أصوات حقيقية من الكتاب الأمهري)</p>
+<blockquote>
+<p>الاسم «مِفتاح البيت» مقترح من مدير المنتج ولم يُعتمد. الأسعار 49/99 من وثيقة المشروع ولم تُختبر. نصوص الواجهة <strong>مسودة</strong> لصاحب النصوص.</p>
+</blockquote>
+<h2 id="1">1. الجمهور والسيناريو</h2>
+<ul>
+<li><strong>المشترية</strong>: ربة بيت خليجية، على الجوال، تقرر خلال دقيقة من إعلان أو واتساب. تحتاج تسمع قبل ما تدفع، ولازم تحس إن المنتج «لبيتها» مو ملف عام.</li>
+<li><strong>المستخدمة</strong>: العاملة، قراءتها محدودة، وجهازها قد يكون أندرويد رخيص أو قد لا يكون بيدها (حسب ملف باحث تجربة المستخدم). لازم يفتح بلغتها أول، وكل جملة لها زر صوت.</li>
+<li><strong>الفئة الأكبر</strong>: «المستقرة» اللي عندها عاملة من زمان. عشان كذا العنوان الرئيسي يقول «قواعد بيتك»، مو «تعليم العاملة الجديدة».</li>
+</ul>
+<h2 id="2">2. الاتجاه: «فخامة هادئة»</h2>
+<p>عاجي وردي + برقوقي غامق + ذهبي رفيع. الوردي اللي طلبته غيداء (D6) باقي كخلفية وأسطح. الفخامة تجي من ثلاثة أشياء: خط عرض نسخي (Amiri)، وإطار ذهبي مزدوج على الغلاف، ومساحات بيضاء واسعة. ما فيه تدرجات صاخبة ولا إيموجي في عناصر الهوية.
+السبب: «فاخر» في سوق PDF بـ30 ريال يعني إن المنتج يبين مثل هدية مغلّفة، مو إعلان مزدحم. والبرقوقي يعطي تباين عالي للنص الأبيض (13.5:1) فالفخامة ما تكون على حساب الوضوح.</p>
+<h2 id="3">3. التوكنز (لا تتغير بدون مراجعة تباين)</h2>
+<table>
+<thead>
+<tr>
+<th>توكن</th>
+<th>القيمة</th>
+<th>الاستخدام</th>
+<th>التباين المقاس</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ivory</td>
+<td>#FFF7F9</td>
+<td>خلفية</td>
+<td>—</td>
+</tr>
+<tr>
+<td>paper</td>
+<td>#FFFFFF</td>
+<td>بطاقات</td>
+<td>—</td>
+</tr>
+<tr>
+<td>blush</td>
+<td>#FCE4EC</td>
+<td>سطح ثانوي</td>
+<td>ink 13.0 · muted 6.09</td>
+</tr>
+<tr>
+<td>petal</td>
+<td>#F4B6CA</td>
+<td>زخرفة وحدود ناعمة فقط</td>
+<td><strong>ممنوع عليه النص الرمادي</strong> (muted 4.32 فاشل)</td>
+</tr>
+<tr>
+<td>ink</td>
+<td>#2E1F27</td>
+<td>نص أساسي</td>
+<td>15.65 على الأبيض</td>
+</tr>
+<tr>
+<td>muted</td>
+<td>#6B4E5B</td>
+<td>نص ثانوي</td>
+<td>7.33 أبيض · 5.72+ على كل خلفيات الحالة</td>
+</tr>
+<tr>
+<td>rose</td>
+<td>#A3154F</td>
+<td>أزرار وعلامة</td>
+<td>أبيض عليه 7.56</td>
+</tr>
+<tr>
+<td>plum</td>
+<td>#5A1030</td>
+<td>غلاف وأزرار داكنة</td>
+<td>أبيض 13.54 · champagne 9.24</td>
+</tr>
+<tr>
+<td>gold</td>
+<td>#C9A86A</td>
+<td>خطوط زخرفية فقط</td>
+<td>2.14 → <strong>ممنوع للنص</strong></td>
+</tr>
+<tr>
+<td>gold-ink</td>
+<td>#8A6A2F</td>
+<td>نص ذهبي صغير على فاتح</td>
+<td>5.02 أبيض · 4.76 ivory</td>
+</tr>
+<tr>
+<td>champagne</td>
+<td>#E9D3A6</td>
+<td>نص وأزرار على plum</td>
+<td>9.24</td>
+</tr>
+<tr>
+<td>line</td>
+<td>#8E6577</td>
+<td>حدود الحقول والأزرار</td>
+<td>4.91 (المطلوب 3:1)</td>
+</tr>
+<tr>
+<td>danger / bg</td>
+<td>#B3261E / #FDECEC</td>
+<td>خطر</td>
+<td>5.72</td>
+</tr>
+<tr>
+<td>warn / bg</td>
+<td>#7A4A00 / #FFF3D6</td>
+<td>انتبهي</td>
+<td>6.78</td>
+</tr>
+<tr>
+<td>ok / bg</td>
+<td>#1E7A46 / #E6F4EC</td>
+<td>صح، وزر الصوت وهو شغّال</td>
+<td>أبيض 5.35</td>
+</tr>
+<tr>
+<td>whatsapp</td>
+<td>#1F8F4E</td>
+<td>زر واتساب</td>
+<td>أبيض 4.31 → النص 18px عريض (نص كبير ≥3:1)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>المسافات</strong> 4/8/12/16/24/32/48 · <strong>الزوايا</strong> 10/16/24/pill · <strong>الظل</strong> sh-1 للبطاقات، sh-2 للغلاف والجهاز فقط.
+<strong>الخطوط</strong>: عناوين Amiri 700 · نص Noto Naskh Arabic 400/700 · أمهري Noto Sans Ethiopic. المقاسات: 15 / 17 / 19 / 21 / 26 / 34 / 40. <strong>أصغر نص للمحتوى 15px</strong> (13px مسموح فقط للتسميات الثانوية تحت نص أكبر منه).
+<strong>اللمس</strong>: لا يقل أي عنصر تفاعلي عن 44px، والأساسي 48px. الأزرار الرئيسية 56px.</p>
+<h2 id="4">4. ثوابت لا تتغير</h2>
+<ol>
+<li><strong>مستوى الخطر عمره ما يكون باللون بس.</strong> كل مستوى له شكل خاص وكلمة مكتوبة: الخطر مثمّن فيه ✕ مع «خطر»، والتنبيه مثلث فيه ! مع «انتبهي»، والصح دائرة فيها ✓ مع «صح». والخطر عليه شريط جانبي 4px.</li>
+<li><strong>لغة العاملة أول</strong>، والعربي تحتها. الأمهري LTR في عزل bidi داخل صفحة RTL (<code>unicode-bidi:isolate</code>).</li>
+<li><strong>ما فيه أعلام إيموجي للغات.</strong> اللغة تنكتب باسمها الأصلي (አማርኛ) وتحتها الدولة بالعربي. السبب إن الأعلام ما تظهر على ويندوز، والعلم مو هو اللغة.</li>
+<li><strong>زر صوت لكل جملة</strong>: وردي للغة العاملة، وبرقوقي للعربي، وأخضر وهو شغّال. الحركة تنطفي مع <code>prefers-reduced-motion</code>.</li>
+<li><strong>العلامة المائية</strong> (R8) «نسخة خاصة ببيت … · رقم الطلب» تكون في الغلاف وفي آخر كل فصل. هي ردع ووسيلة تتبع، مو حماية (حسب نتائج ضمان الجودة).</li>
+<li><strong>اسم الكتاب لا يزيد عن 22 حرف</strong>، عشان يبان على الأيقونة في سطرين.</li>
+</ol>
+<h2 id="5">5. الشاشات (النموذج)</h2>
+<ol>
+<li><strong>صفحة البيع</strong>: عنوان النتيجة، وعيّنة صوت قبل الدفع، واختيار الجنسية (8 لغات)، وباقتين، و3 نقاط ثقة (بدون إنترنت · نسخة خاصة · آيفون وأندرويد). ما فيه أي شهادات أو أرقام عملاء، لأنها ما عندنا.</li>
+<li><strong>الدفع</strong>: الاسم، وبطاقة التحويل مع رمز الطلب (GH-xxxx)، ورفع الإيصال. بعده نتيجة الفحص: ✓ للمبلغ، ✓ للرمز، و<strong>«بانتظار التأكيد»</strong>، لأن التفعيل يمر بمراجعة بشرية (حسب توصية مدير المنتج). الشكل والنص يفرّقون بين الحالات، مو اللون بس.</li>
+<li><strong>سمّي كتابك</strong>: معاينة مباشرة للغلاف والأيقونة، واقتراحات أسماء، واسم العاملة اختياري وما ينحفظ.</li>
+<li><strong>التسليم</strong>: زر واتساب، وQR للطباعة (لأن جوال العاملة قد لا يكون بيدها)، وطريقة التثبيت على الشاشة، وبطاقة «عاملة جديدة أو جوال ثاني؟ أرسلي نفس الملف». <strong>v0.2</strong>: انشال حد الأجهزة وزر النقل، عشان يتوافق مع قرار «بلا خادم» (#msg:5149256، R6 → P2).</li>
+<li><strong>غلاف العاملة</strong>: برقوقي بإطار ذهبي، واختيار اللغة، وترحيب صوتي، وزر البداية، والعلامة المائية.</li>
+<li><strong>فصل السلامة</strong>: ثلاث طرق للعرض، وبطاقات المستويات، وزرين صوت.</li>
+<li><strong>قولي لعاملتك</strong>: شبكة عبارات بالعربي، تضغطينها فينطق الأمهري، مع لوحة «تسمع الحين» (aria-live).</li>
+</ol>
+<h2 id="6">6. فحص القبول</h2>
+<table>
+<thead>
+<tr>
+<th>البند</th>
+<th>النتيجة</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>تباين كل أزواج التوكنز المستخدمة للنص</td>
+<td><strong>PASS</strong>، كلها ≥4.5:1 ما عدا زر واتساب 4.31 (نص كبير عريض ≥3:1 PASS). الأرقام في الجدول أعلاه</td>
+</tr>
+<tr>
+<td>حدود العناصر التفاعلية ≥3:1</td>
+<td><strong>PASS</strong> (line 4.91)</td>
+</tr>
+<tr>
+<td>الحالة مو باللون بس</td>
+<td><strong>PASS</strong>: شكل + كلمة لكل مستوى، و✓/! في الفحص، و«✓» على الشريحة المختارة</td>
+</tr>
+<tr>
+<td>أوفرفلو أفقي على 375px (Chrome، 7 شاشات)</td>
+<td><strong>PASS</strong>: scrollWidth = 375 في كل شاشة. الزخرفة الوحيدة الخارجة مقصوصة عمداً</td>
+</tr>
+<tr>
+<td>أهداف لمس &lt;44px</td>
+<td><strong>PASS</strong>: صفر عناصر</td>
+</tr>
+<tr>
+<td>الصوت يتفك (8 مقاطع)</td>
+<td><strong>PASS</strong>: كلها لها مدة (0.96–6.99 ث)</td>
+</tr>
+<tr>
+<td>أخطاء JS</td>
+<td><strong>PASS</strong>: صفر</td>
+</tr>
+<tr>
+<td>الخطوط تتحمّل مضمّنة (subset woff2، المجموع 96KB)</td>
+<td><strong>PASS</strong> في Chrome</td>
+</tr>
+<tr>
+<td>320px، iOS Safari، أندرويد قديم، فتح الملف من واتساب</td>
+<td><strong>NOT TESTED</strong></td>
+</tr>
+<tr>
+<td>قارئ الشاشة (VoiceOver/TalkBack)</td>
+<td><strong>NOT TESTED</strong>. الأدوار والتسميات موجودة في الكود، بس ما جربتها</td>
+</tr>
+<tr>
+<td>عنوان الغلاف الأمهري «የኦም ሳራ ቤት መመሪያ»</td>
+<td><strong>NOT TESTED</strong>: ترجمتي أنا، تحتاج مراجع الترجمة</td>
+</tr>
+<tr>
+<td>شاشة 2: قراءة الإيصال فعلاً</td>
+<td><strong>محاكاة</strong>. الفحص في النموذج صوري، مو OCR حقيقي</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7">7. للتنفيذ (مهندس برمجيات أول)</h2>
+<ul>
+<li>انقل <code>:root</code> كما هو إلى <code>book/templates/book.html</code>، واستبدل القيم القديمة: ‎#8a6b78→muted، ‎#c2185b→rose، ‎#2e9e5b→ok، ‎#e08aa8 للحدود→line.</li>
+<li>لا تحمّل الصوت كله مرة وحدة (ضمان الجودة قاس +117MB): أنشئ <code>Audio</code> عند الضغط بس، مثل النموذج.</li>
+<li>الخطوط: subset بالحروف المستخدمة لكل لغة (Amiri كامل 600KB → 52KB مقصوص).</li>
+</ul></div><footer>مشروع غيداء — وثائق العمل الداخلية</footer></body></html>

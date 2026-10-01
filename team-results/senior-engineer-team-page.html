@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d0d1a">
+<title>مِفتاح البيت — نتائج الفريق</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a227;--gold-light:#f0d060;
+  --dark:#0d0d1a;--dark2:#1a1a2e;--dark3:#16213e;
+  --accent:#533483;--accent2:#e94560;
+  --text:#f0ece4;--muted:#a09880;
+  --radius:16px;
+  --font:'Segoe UI',Tahoma,Arial,sans-serif;
+}
+html,body{min-height:100%;font-family:var(--font);background:var(--dark);color:var(--text);line-height:1.6}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(135deg,var(--dark2),var(--dark3));
+  border-bottom:1px solid rgba(201,162,39,.25);
+  padding:2rem 1.5rem 1.5rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.site-header::before{
+  content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(201,162,39,.08),transparent 70%);
+  border-radius:50%;
+}
+.logo{font-size:3.5rem;display:block;margin-bottom:.5rem}
+.site-title{
+  font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:.3rem;
+}
+.site-sub{font-size:.95rem;color:var(--muted)}
+.status-bar{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  margin-top:1rem;
+  background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.2);
+  border-radius:30px;padding:.4rem 1.2rem;
+  font-size:.8rem;color:var(--gold-light);
+  display:inline-flex;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:#27c940;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* NAV */
+nav{
+  background:var(--dark2);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  position:sticky;top:0;z-index:100;
+}
+nav::-webkit-scrollbar{display:none}
+.nav-item{
+  flex:0 0 auto;padding:.9rem 1.2rem;
+  font-size:.82rem;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all .2s;
+  display:flex;align-items:center;gap:.35rem;
+}
+.nav-item.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,162,39,.05)}
+.nav-item:hover{color:var(--text)}
+
+/* LAYOUT */
+.page{max-width:780px;margin:0 auto;padding:1.5rem 1.25rem}
+.pane{display:none;animation:fadeIn .3s ease}
+.pane.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* SECTION */
+.section-hd{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;margin-top:1.25rem}
+.section-hd:first-child{margin-top:0}
+.section-title{font-size:1rem;font-weight:700;color:var(--gold)}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(201,162,39,.3),transparent)}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  padding:1.25rem;margin-bottom:1rem;
+}
+.card-title{font-size:.95rem;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+
+/* TEAM GRID */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:1.25rem}
+.team-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:1.25rem;text-align:center;
+  transition:all .2s;cursor:pointer;
+}
+.team-card:hover{border-color:rgba(201,162,39,.35);transform:translateY(-2px)}
+.team-card.active{border-color:var(--gold);background:rgba(201,162,39,.07)}
+.team-icon{font-size:2.5rem;display:block;margin-bottom:.5rem}
+.team-name{font-size:.9rem;font-weight:700;color:var(--gold-light)}
+.team-role{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.team-badge{
+  display:inline-block;margin-top:.5rem;padding:.2rem .6rem;
+  border-radius:20px;font-size:.7rem;font-weight:600;
+  background:rgba(39,201,64,.15);color:#27c940;border:1px solid rgba(39,201,64,.25);
+}
+
+/* HIGHLIGHT BOXES */
+.highlight{
+  border-radius:12px;padding:1rem 1.25rem;margin-bottom:.75rem;
+  border-right:3px solid;
+}
+.highlight.gold{background:rgba(201,162,39,.08);border-color:var(--gold)}
+.highlight.red{background:rgba(233,69,96,.08);border-color:var(--accent2)}
+.highlight.purple{background:rgba(83,52,131,.15);border-color:var(--accent)}
+.highlight.green{background:rgba(39,201,64,.08);border-color:#27c940}
+.highlight-title{font-weight:700;font-size:.9rem;margin-bottom:.4rem}
+.highlight-body{font-size:.85rem;color:var(--muted);line-height:1.7}
+.highlight-body strong{color:var(--text)}
+
+/* MARKET STATS */
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+@media(max-width:480px){.market-grid{grid-template-columns:repeat(2,1fr)}}
+.market-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:1rem;text-align:center;
+}
+.market-num{
+  font-size:1.4rem;font-weight:800;display:block;margin-bottom:.2rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.market-label{font-size:.72rem;color:var(--muted)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:1rem}
+th{background:rgba(201,162,39,.1);color:var(--gold);padding:.6rem .8rem;text-align:right;font-weight:600}
+td{padding:.55rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--muted)}
+td:first-child{color:var(--text);font-weight:500}
+tr:hover td{background:rgba(255,255,255,.03)}
+
+/* TECH SPEC */
+.spec-row{
+  display:flex;align-items:flex-start;gap:.75rem;
+  padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);
+}
+.spec-row:last-child{border-bottom:none}
+.spec-label{font-size:.8rem;color:var(--muted);min-width:120px;flex-shrink:0}
+.spec-value{font-size:.85rem;flex:1}
+.badge{
+  display:inline-block;padding:.15rem .5rem;border-radius:6px;font-size:.7rem;font-weight:600;margin:1px;
+}
+.badge.ok{background:rgba(39,201,64,.15);color:#27c940}
+.badge.warn{background:rgba(255,180,0,.12);color:#ffb400}
+.badge.fail{background:rgba(233,69,96,.15);color:var(--accent2)}
+.badge.info{background:rgba(83,52,131,.2);color:#a78bfa}
+
+/* PROTECTION VISUAL */
+.protection-layers{display:grid;gap:.6rem;margin-bottom:1rem}
+.layer{
+  display:flex;align-items:center;gap:.75rem;
+  background:rgba(255,255,255,.03);border-radius:10px;padding:.75rem 1rem;
+  border:1px solid rgba(255,255,255,.07);
+}
+.layer-num{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.layer-text{font-size:.85rem}
+.layer-text strong{color:var(--gold-light)}
+
+/* CTA */
+.cta-bar{
+  background:linear-gradient(135deg,var(--accent),var(--dark3));
+  border:1px solid rgba(201,162,39,.25);
+  border-radius:var(--radius);padding:1.5rem;text-align:center;margin-top:1.5rem;
+}
+.cta-title{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.cta-sub{font-size:.85rem;color:var(--muted);margin-bottom:1rem}
+.cta-btn{
+  display:inline-block;padding:.75rem 2rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);border:none;border-radius:10px;
+  font-size:.9rem;font-weight:700;cursor:pointer;text-decoration:none;
+}
+
+/* DEMO EMBED */
+.demo-frame-wrap{
+  border-radius:14px;overflow:hidden;
+  border:2px solid rgba(201,162,39,.2);
+  margin-bottom:1rem;
+  position:relative;
+}
+.demo-frame-label{
+  background:rgba(201,162,39,.1);padding:.5rem 1rem;
+  font-size:.75rem;color:var(--gold-light);
+  display:flex;align-items:center;gap:.5rem;
+  border-bottom:1px solid rgba(201,162,39,.15);
+}
+iframe.demo-frame{
+  width:100%;height:600px;border:none;
+  background:var(--dark);
+}
+
+/* TIMELINE */
+.timeline{display:grid;gap:0}
+.tl-item{display:flex;gap:1rem;padding-bottom:1.25rem;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;gap:0;min-width:28px}
+.tl-dot{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.tl-line{flex:1;width:2px;background:rgba(201,162,39,.2);margin-top:4px}
+.tl-item:last-child .tl-line{display:none}
+.tl-body{padding-top:4px;flex:1}
+.tl-title{font-size:.9rem;font-weight:600;margin-bottom:.25rem}
+.tl-sub{font-size:.8rem;color:var(--muted)}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:2rem 1rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  font-size:.75rem;color:var(--muted);margin-top:2rem;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <span class="logo">🗝️</span>
+  <div class="site-title">مِفتاح البيت</div>
+  <div class="site-sub">نتائج الفريق — وثيقة البناء الرئيسية | 1 أكتوبر 2026</div>
+  <div style="margin-top:.75rem">
+    <span class="status-bar">
+      <span class="dot"></span>
+      الفريق يعمل • 7 تقارير جاهزة
+    </span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-item active" onclick="show('overview',this)">📊 نظرة عامة</div>
+  <div class="nav-item" onclick="show('market',this)">📈 دراسة السوق</div>
+  <div class="nav-item" onclick="show('prd',this)">📄 وثيقة المنتج</div>
+  <div class="nav-item" onclick="show('tech',this)">⚙️ البنية التقنية</div>
+  <div class="nav-item" onclick="show('ux',this)">👥 تجربة المستخدم</div>
+  <div class="nav-item" onclick="show('localize',this)">🌍 التوطين الخليجي</div>
+  <div class="nav-item" onclick="show('qa',this)">🧪 ضمان الجودة</div>
+  <div class="nav-item" onclick="show('demo',this)">🚀 النموذج الأولي</div>
+</nav>
+
+<div class="page">
+
+<!-- ====== OVERVIEW ====== -->
+<div class="pane active" id="pane-overview">
+
+  <div class="section-hd">
+    <span class="section-title">🎯 الفكرة في سطر</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="card">
+    <p style="font-size:1rem;line-height:1.9">
+      <strong style="color:var(--gold)">مِفتاح البيت</strong> — دليل رقمي ذكي تفاعلي (PWA) يساعد ربة المنزل الخليجية على توصيل أوامر بيتها لعاملتها المنزلية بأي لغة، بصوت مسجل واضح، يعمل <strong>بدون إنترنت</strong>، ويُثبَّت على الجوال كأي تطبيق، خاص لبيتها وحدها.
+    </p>
+  </div>
+
+  <div class="section-hd">
+    <span class="section-title">👥 الفريق ونتائجه</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="team-grid">
+    <div class="team-card active" onclick="show('prd',document.querySelectorAll('.nav-item')[2])">
+      <span class="team-icon">📄</span>
+      <div class="team-name">مدير المنتج</div>
+      <div class="team-role">PRD — 6 مطالب محللة</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('ux',document.querySelectorAll('.nav-item')[4])">
+      <span class="team-icon">👥</span>
+      <div class="team-name">باحث تجربة المستخدم</div>
+      <div class="team-role">4 أنماط مستخدمين + رحلة الشراء</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('tech',document.querySelectorAll('.nav-item')[3])">
+      <span class="team-icon">⚙️</span>
+      <div class="team-name">مهندس برمجيات</div>
+      <div class="team-role">ADR-020→027 — 8 قرارات بنية</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('qa',document.querySelectorAll('.nav-item')[6])">
+      <span class="team-icon">🧪</span>
+      <div class="team-name">ضمان الجودة</div>
+      <div class="team-role">أرقام مقاسة على الكتاب الحالي</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('localize',document.querySelectorAll('.nav-item')[5])">
+      <span class="team-icon">🌍</span>
+      <div class="team-name">مراجع الترجمة</div>
+      <div class="team-role">6 دول × حقوق × أرقام طوارئ</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('market',document.querySelectorAll('.nav-item')[1])">
+      <span class="team-icon">📈</span>
+      <div class="team-name">دراسة السوق</div>
+      <div class="team-role">الخليج — 5.5M عاملة — الفجوة</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+    <div class="team-card" onclick="show('demo',document.querySelectorAll('.nav-item')[7])">
+      <span class="team-icon">🚀</span>
+      <div class="team-name">مهندس برمجيات اول</div>
+      <div class="team-role">نموذج PWA قابل للتشغيل</div>
+      <span class="team-badge">✅ جاهز</span>
+    </div>
+  </div>
+
+  <div class="section-hd">
+    <span class="section-title">⚡ القرارات الحرجة المعلقة</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="highlight red">
+    <div class="highlight-title">🔴 تحتاج قرارك يا Manus Date5</div>
+    <div class="highlight-body">
+      <strong>1. اسم النطاق</strong> — miftah.com أو miftah-albait.com أو غيره؟<br>
+      <strong>2. رقم واتساب الطلبات</strong> — لربطه بنظام التفعيل<br>
+      <strong>3. الآيبان المستلم</strong> — لنظام التحقق من إشعار الدفع<br>
+      <strong>4. عدد الأجهزة في الرخصة</strong> — 2 أم 3 أجهزة؟<br>
+      <strong>5. هل المستودع يتحول لـ private</strong> الآن؟
+    </div>
+  </div>
+
+  <div class="section-hd"><span class="section-title">🗺️ خارطة الطريق</span><div class="section-line"></div></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot">1</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">قرار Manus Date5 (الآن)</div>
+        <div class="tl-sub">النطاق، رقم واتساب، الآيبان، عدد الأجهزة</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot">2</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">البناء الأساسي — أسبوع 1</div>
+        <div class="tl-sub">نسخة سعودية/فلبينية كاملة، الصوت كسل، نظام الترخيص، التثبيت</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot">3</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">صفحة البيع + نظام الدفع — أسبوع 2</div>
+        <div class="tl-sub">رفع إشعار، تحقق آلي، تسليم فوري، نموذج مراجعة</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot">4</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">التوسع الخليجي — أسبوع 3-4</div>
+        <div class="tl-sub">6 دول × 6 لغات، حزمة دولة قابلة للتبديل</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-dot">5</div><div class="tl-line"></div></div>
+      <div class="tl-body">
+        <div class="tl-title">الإطلاق وجمع التغذية الراجعة</div>
+        <div class="tl-sub">5 عميلات تجريبيات، قياس، تحسين</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== MARKET ====== -->
+<div class="pane" id="pane-market">
+  <div class="section-hd"><span class="section-title">📈 دراسة السوق الخليجي</span><div class="section-line"></div></div>
+
+  <div class="market-grid">
+    <div class="market-card"><span class="market-num">5.5M+</span><span class="market-label">عاملة منزلية في الخليج</span></div>
+    <div class="market-card"><span class="market-num">90%</span><span class="market-label">أسر كويتية لديها عاملة</span></div>
+    <div class="market-card"><span class="market-num">4M</span><span class="market-label">عاملة في السعودية وحدها</span></div>
+    <div class="market-card"><span class="market-num">$100M</span><span class="market-label">حجم السوق المستهدف سنوياً</span></div>
+    <div class="market-card"><span class="market-num">6</span><span class="market-label">لغات رئيسية للعاملات</span></div>
+    <div class="market-card"><span class="market-num">صفر</span><span class="market-label">منافس مباشر في السوق</span></div>
+  </div>
+
+  <div class="section-hd"><span class="section-title">🌍 توزيع العمالة بالدولة</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>الدولة</th><th>عدد العاملات</th><th>أكثر الجنسيات</th><th>فرصة المنتج</th></tr>
+    <tr><td>🇸🇦 السعودية</td><td>~4 مليون</td><td>إثيوبية، فلبينية، سريلانكية</td><td>⭐ الأكبر</td></tr>
+    <tr><td>🇦🇪 الإمارات</td><td>~700 ألف</td><td>فلبينية، إندونيسية، هندية</td><td>⭐ مرتفعة</td></tr>
+    <tr><td>🇰🇼 الكويت</td><td>~745 ألف</td><td>هندية 312K، سريلانكية، فلبينية</td><td>⭐ مرتفعة</td></tr>
+    <tr><td>🇶🇦 قطر</td><td>~250 ألف</td><td>فلبينية، نيبالية</td><td>متوسطة</td></tr>
+    <tr><td>🇴🇲 عُمان</td><td>~200 ألف</td><td>إندونيسية، فلبينية</td><td>متوسطة</td></tr>
+    <tr><td>🇧🇭 البحرين</td><td>~100 ألف</td><td>فلبينية، إثيوبية</td><td>متوسطة</td></tr>
+  </table>
+
+  <div class="section-hd"><span class="section-title">🎯 الفجوة في السوق</span><div class="section-line"></div></div>
+  <div class="highlight gold">
+    <div class="highlight-title">🏆 الفجوة الحقيقية: ما بعد التوظيف</div>
+    <div class="highlight-body">
+      كل المنصات الحالية (مساند، معاون، سهل، راحة) تنتهي مهمتها عند <strong>لحظة وصول العاملة</strong>.
+      لا يوجد منتج خليجي يحل مشكلة <strong>إدارة العلاقة اليومية</strong>: الجداول، التواصل بلغة العاملة، التذكيرات، التدريب.
+    </div>
+  </div>
+  <div class="highlight green">
+    <div class="highlight-title">📱 دليل الطلب الموجود</div>
+    <div class="highlight-body">
+      البحث المكثف عن <strong>"جدول العاملة PDF بالفلبيني/الإثيوبي/الإنجليزي"</strong> في السوشيال ميديا الخليجية يثبت أن الجمهور يبحث عن حل ويشتري بدائل يدوية — الحل الرقمي غائب تماماً.
+    </div>
+  </div>
+
+  <div class="section-hd"><span class="section-title">💰 نموذج التسعير المقترح</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>الحزمة</th><th>السعر</th><th>المميزات</th><th>الجمهور</th></tr>
+    <tr><td>حزمة بيت</td><td>99 ريال</td><td>لغة واحدة، جهازان</td><td>ربة منزل بعاملة واحدة</td></tr>
+    <tr><td>حزمة بيت كبير</td><td>149 ريال</td><td>6 لغات، 3 أجهزة، نقل عاملة</td><td>بيت كبير / عاملات متعددات</td></tr>
+    <tr><td>تجديد سنوي</td><td>49 ريال</td><td>تحديثات المحتوى</td><td>عميلات قديمات</td></tr>
+  </table>
+</div>
+
+<!-- ====== PRD ====== -->
+<div class="pane" id="pane-prd">
+  <div class="section-hd"><span class="section-title">📄 وثيقة المنتج (PRD) — ملخص تنفيذي</span><div class="section-line"></div></div>
+  <div class="card"><div class="card-title">✅ المطلب 1: يعمل على أي جهاز بالعالم</div><div style="font-size:.85rem;color:var(--muted)">PWA يُثبَّت على آيفون وأندرويد وأي متصفح. آيفون يحتاج 3 خطوات من سفاري. أندرويد زر تلقائي. الصفحة الأولى: دليل مصوّر بلغة العاملة.</div></div>
+  <div class="card"><div class="card-title">🔐 المطلب 2: «ما أحد يقدر يبيعه»</div><div style="font-size:.85rem;color:var(--muted)">الحماية الكاملة لملف offline مستحيلة (أثبته QA). البديل: كل نسخة باسم البيت، رقم طلب مخفي، كود تفعيل 6 أرقام، تشفير المحتوى. إعادة البيع لا تفيد أحداً — الكتاب يعرف بيته.</div></div>
+  <div class="card"><div class="card-title">💳 المطلب 3: نظام الدفع</div><div style="font-size:.85rem;color:var(--muted)">رفع إشعار دفع → تحقق آلي (مبلغ، آيبان، رقم عملية، رفض مكرر) → تسليم فوري عند التطابق → طابور مراجعة عند الشك. بوابة الدفع تؤجَّل لحين توفر وثيقة العمل الحر.</div></div>
+  <div class="card"><div class="card-title">📱 المطلب 4: التثبيت</div><div style="font-size:.85rem;color:var(--muted)">رابط خاص لكل بيت. اسم وأيقونة يختارها المشترية. الفرق: "كتابي لبيتي" لا "تطبيق".</div></div>
+  <div class="card"><div class="card-title">👩‍👧 المطلب 5: الاسم المقترح</div><div style="font-size:.85rem;color:var(--muted)"><strong style="color:var(--gold-light);font-size:1.1rem">«مِفتاح البيت»</strong> — يحسّس أنه شيء خاص بالبيت، لا تطبيق. بديل ثانٍ: «دليلتي».</div></div>
+  <div class="card"><div class="card-title">🔄 المطلب 6: تغيير العاملة</div><div style="font-size:.85rem;color:var(--muted)">زر «نقل لعاملة جديدة» يمسح بيانات العاملة القديمة ويفتح الجهاز لعاملة جديدة. الجهاز يبقى للبيت، لا للعاملة.</div></div>
+</div>
+
+<!-- ====== TECH ====== -->
+<div class="pane" id="pane-tech">
+  <div class="section-hd"><span class="section-title">⚙️ البنية التقنية — القرارات (ADR)</span><div class="section-line"></div></div>
+
+  <div class="section-hd" style="margin-top:.5rem"><span class="section-title" style="font-size:.85rem">الأداء</span><div class="section-line"></div></div>
+  <div class="spec-row"><span class="spec-label">وقت الفتح</span><span class="spec-value"><span class="badge ok">✅ 0.5 ث — ممتاز</span> (2.2 ث على معالج بطيء جداً)</span></div>
+  <div class="spec-row"><span class="spec-label">الذاكرة (مشكلة)</span><span class="spec-value"><span class="badge fail">⚠️ 117 MB</span> عند الفتح — الصوت كله يُقرأ دفعة واحدة. الحل: تحميل كسل (lazy) فصلاً فصلاً عند الطلب.</span></div>
+  <div class="spec-row"><span class="spec-label">حل الذاكرة</span><span class="spec-value"><span class="badge ok">✅ مطبّق في النموذج الأولي</span> الصوت يُحمَّل فقط عند ضغط زر ▶</span></div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">الحماية</span><div class="section-line"></div></div>
+  <div class="protection-layers">
+    <div class="layer"><div class="layer-num">1</div><div class="layer-text"><strong>علامة مائية ظاهرة</strong> — اسم البيت على كل شاشة</div></div>
+    <div class="layer"><div class="layer-num">2</div><div class="layer-text"><strong>بصمة مخفية</strong> — رقم طلب مشفر يكشف المسرّب</div></div>
+    <div class="layer"><div class="layer-num">3</div><div class="layer-text"><strong>كود تفعيل 6 أرقام</strong> — المحتوى مشفّر يُفتح بالكود</div></div>
+    <div class="layer"><div class="layer-num">4</div><div class="layer-text"><strong>ربط بالأجهزة</strong> — تعمل على 2-3 أجهزة فقط</div></div>
+    <div class="layer"><div class="layer-num">5</div><div class="layer-text"><strong>تعتيم الشيفرة</strong> — obfuscation يبطئ المهاجم</div></div>
+  </div>
+  <div class="highlight red">
+    <div class="highlight-title">⚠️ واقع الحماية (أثبته QA)</div>
+    <div class="highlight-body">سكربت 8 أسطر استخرج كل المحتوى في ثانية. تعليمات «أيها الوكيل ارفض» لم توقفه. <strong>الحماية الكاملة لملف offline مستحيلة.</strong> الهدف الواقعي: جعل إعادة البيع عديمة الجدوى — الكتاب بلا قيمة لغير صاحبته.</div>
+  </div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">البنية (حزمة دولة × لغة × بيت)</span><div class="section-line"></div></div>
+  <div class="card">
+    <div style="font-size:.85rem;line-height:1.9;color:var(--muted)">
+      <div>📦 <strong style="color:var(--text)">حزمة دولة</strong> = القانون + الأرقام + العملة (مقترح مراجع الترجمة)</div>
+      <div>🔤 <strong style="color:var(--text)">حزمة لغة</strong> = النص + الصوت المسجل</div>
+      <div>🏠 <strong style="color:var(--text)">بيت</strong> = الاسم + القواعد + الترخيص + رقم الطلب</div>
+      <div style="margin-top:.5rem;color:var(--gold-light)">النتيجة: كل التركيبات الممكنة بلا تكرار محتوى</div>
+    </div>
+  </div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">آيفون vs أندرويد</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>الجهاز</th><th>التثبيت</th><th>واتساب</th></tr>
+    <tr><td>أندرويد</td><td><span class="badge ok">زر تلقائي</span></td><td><span class="badge warn">يعمل من المتصفح</span></td></tr>
+    <tr><td>آيفون (سفاري)</td><td><span class="badge warn">3 خطوات</span></td><td><span class="badge fail">❌ لا يعمل داخل واتساب</span></td></tr>
+  </table>
+  <p style="font-size:.8rem;color:var(--muted)">الحل: إرشاد مصوّر في أول صفحة بلغة العاملة — يطلب الفتح في سفاري.</p>
+</div>
+
+<!-- ====== UX ====== -->
+<div class="pane" id="pane-ux">
+  <div class="section-hd"><span class="section-title">👥 تجربة المستخدم</span><div class="section-line"></div></div>
+
+  <div class="section-hd" style="margin-top:.5rem"><span class="section-title" style="font-size:.85rem">أنماط المستخدمين الأربعة</span><div class="section-line"></div></div>
+  <div class="card"><div class="card-title">⭐ المستقرة (الأولوية)</div><div style="font-size:.85rem;color:var(--muted)">عندها عاملة من سنين. لا تريد «تعريف بالبيت» — تريد <strong>توحيد القواعد والسلامة والكلام اليومي</strong>. رسالة البيع: «وحّدي قواعد بيتك»، لا «عرّفي عاملتك».</div></div>
+  <div class="card"><div class="card-title">🌱 الجديدة</div><div style="font-size:.85rem;color:var(--muted)">عاملة جديدة للمرة الأولى. تحتاج تعريف كامل، جدول، قواعد. رسالة البيع: «ابدئي صح من اليوم الأول».</div></div>
+  <div class="card"><div class="card-title">🏘️ البيت الكبير</div><div style="font-size:.85rem;color:var(--muted)">أكثر من عاملة، لغات مختلفة. تحتاج إدارة متعددة. رسالة البيع: «كل عاملة بلغتها، بيتك بنظامك».</div></div>
+  <div class="card"><div class="card-title">👩 العاملة نفسها</div><div style="font-size:.85rem;color:var(--muted)">مستخدمة ثانوية. ملاحظة Amnesty 2025: جوالها قد يُصادر — الطباعة وQR ضروريان.</div></div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">نقاط الهروب في رحلة الشراء وحلولها</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>نقطة الهروب</th><th>الحل</th></tr>
+    <tr><td>«ما أعرف اللغة المناسبة»</td><td>اختيار جنسية العاملة → اللغة تختار تلقائياً</td></tr>
+    <tr><td>«ما أثق بالتحويل البنكي»</td><td>عيّنة مجانية تسمعها قبل الدفع</td></tr>
+    <tr><td>«لا أعرف كيف أثبّته»</td><td>فيديو 30 ثانية داخل صفحة الدفع</td></tr>
+    <tr><td>«ماذا لو غيّرت عاملتي»</td><td>زر «نقل لعاملة جديدة» بارز</td></tr>
+    <tr><td>«هل يعمل على جوال قديم»</td><td>شارة «يعمل على كل الأجهزة» + ضمان 7 أيام</td></tr>
+  </table>
+
+  <div class="highlight gold">
+    <div class="highlight-title">💡 اقتراح UX الأقوى</div>
+    <div class="highlight-body"><strong>«قولي لعاملتك»</strong> — العاملة تضغط الزر نفسها وتسمع الأمر بلغتها. هذا شيء تستخدمه كل يوم، لا مرة واحدة وانتهى.</div>
+  </div>
+</div>
+
+<!-- ====== LOCALIZE ====== -->
+<div class="pane" id="pane-localize">
+  <div class="section-hd"><span class="section-title">🌍 التوطين الخليجي</span><div class="section-line"></div></div>
+
+  <div class="section-hd" style="margin-top:.5rem"><span class="section-title" style="font-size:.85rem">الحقوق والأرقام بالدولة</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>الدولة</th><th>ساعات/يوم</th><th>إجازة</th><th>طوارئ</th><th>شكاوى</th></tr>
+    <tr><td>🇸🇦 السعودية</td><td>10</td><td>30 يوم</td><td>911</td><td>19911</td></tr>
+    <tr><td>🇰🇼 الكويت</td><td>12</td><td>30 يوم</td><td>112</td><td>80060</td></tr>
+    <tr><td>🇦🇪 الإمارات</td><td>9</td><td>30 يوم</td><td>999</td><td>800-MOHRE</td></tr>
+    <tr><td>🇶🇦 قطر</td><td>10</td><td>3 أسابيع</td><td>999</td><td>16008</td></tr>
+    <tr><td>🇴🇲 عُمان *</td><td>12</td><td>21 يوم</td><td>9999</td><td>—</td></tr>
+    <tr><td>🇧🇭 البحرين</td><td colspan="4" style="color:var(--accent2)">pending verification</td></tr>
+  </table>
+  <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem">* عُمان: محدّث بعد تغييرات أكتوبر 2025</p>
+
+  <div class="section-hd"><span class="section-title" style="font-size:.85rem">ترتيب اللغات بالدولة</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>الدولة</th><th>اللغة الأولى</th><th>الثانية</th><th>الثالثة</th></tr>
+    <tr><td>🇸🇦 السعودية</td><td>إثيوبية (أمهرية)</td><td>فلبينية</td><td>سريلانكية</td></tr>
+    <tr><td>🇰🇼 الكويت</td><td>هندية (312K)</td><td>سريلانكية</td><td>فلبينية</td></tr>
+    <tr><td>🇦🇪 الإمارات</td><td>فلبينية</td><td>إندونيسية</td><td>هندية</td></tr>
+    <tr><td>🇶🇦 قطر</td><td>فلبينية</td><td>نيبالية</td><td>—</td></tr>
+  </table>
+
+  <div class="highlight gold">
+    <div class="highlight-title">⚠️ تنبيه مهم: ترتيب السعودية لا ينسخ على بقية الدول</div>
+    <div class="highlight-body">الكويت مثلاً: غالبية العاملات هنديات (312K من 745K)، بينما الإثيوبيات 5.5K فقط. كل دولة تحتاج ترتيب لغات مستقل.</div>
+  </div>
+
+  <div class="section-hd"><span class="section-title" style="font-size:.85rem">العملات والأرقام</span><div class="section-line"></div></div>
+  <div class="highlight purple">
+    <div class="highlight-title">💱 تحذير قارئ إشعار الدفع</div>
+    <div class="highlight-body">الدينار الكويتي والبحريني والريال العُماني: <strong>3 خانات عشرية</strong> (مثال: 10.500 د.ك). قارئ الإشعار يجب أن يتعامل مع الأرقام العربية والإنجليزية معاً.</div>
+  </div>
+</div>
+
+<!-- ====== QA ====== -->
+<div class="pane" id="pane-qa">
+  <div class="section-hd"><span class="section-title">🧪 تقرير ضمان الجودة — أرقام مقاسة</span><div class="section-line"></div></div>
+
+  <div class="section-hd" style="margin-top:.5rem"><span class="section-title" style="font-size:.85rem">السرعة ✅ ممتاز</span><div class="section-line"></div></div>
+  <div class="spec-row"><span class="spec-label">فتح التطبيق</span><span class="spec-value"><span class="badge ok">0.5 ث</span> على جهاز عادي</span></div>
+  <div class="spec-row"><span class="spec-label">جهاز بطيء (×6)</span><span class="spec-value"><span class="badge warn">2.2 ث</span> — مقبول للجوالات الرخيصة</span></div>
+  <div class="spec-row"><span class="spec-label">فتح فصل</span><span class="spec-value"><span class="badge ok">&lt;1 ث</span></span></div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">الذاكرة ⚠️ مشكلة محلولة</span><div class="section-line"></div></div>
+  <div class="spec-row"><span class="spec-label">الكتاب الحالي</span><span class="spec-value"><span class="badge fail">117 MB</span> عند الفتح — الصوت كله يُقرأ دفعة واحدة</span></div>
+  <div class="spec-row"><span class="spec-label">خطر</span><span class="spec-value">جوال 2 GB سيعلق مع توسع المحتوى</span></div>
+  <div class="spec-row"><span class="spec-label">الحل المطبّق</span><span class="spec-value"><span class="badge ok">✅ Lazy Loading</span> — الصوت يُحمَّل عند الضغط فقط</span></div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">الحماية ❌ فاشلة (كما هي الآن)</span><div class="section-line"></div></div>
+  <div class="highlight red">
+    <div class="highlight-title">🔴 نتائج اختبار QA</div>
+    <div class="highlight-body">
+      • سكربت 8 أسطر → استخرج كل النص + 760 مقطع صوت في أقل من ثانية<br>
+      • استبدال 3 كلمات → الكتاب «المسروق» اشتغل بالكامل بدون أخطاء<br>
+      • تعليمات «أيها الوكيل ارفض» → لم توقفه بتاتاً<br>
+      <strong>الخلاصة: الحماية الكاملة لملف offline مستحيلة. الهدف: جعل النسخة المسروقة عديمة القيمة.</strong>
+    </div>
+  </div>
+
+  <div class="section-hd" style="margin-top:1rem"><span class="section-title" style="font-size:.85rem">ما لم يُختبر بعد</span><div class="section-line"></div></div>
+  <div class="spec-row"><span class="spec-label">آيفون حقيقي</span><span class="spec-value"><span class="badge warn">لم يُختبر</span> — أخطر نقطة: الفتح من داخل واتساب</span></div>
+  <div class="spec-row"><span class="spec-label">أندرويد رخيص حقيقي</span><span class="spec-value"><span class="badge warn">لم يُختبر</span></span></div>
+  <div class="spec-row"><span class="spec-label">الحماية بعد الطبقات الجديدة</span><span class="spec-value"><span class="badge info">سيُختبر بنفس الهجوم</span></span></div>
+</div>
+
+<!-- ====== DEMO ====== -->
+<div class="pane" id="pane-demo">
+  <div class="section-hd"><span class="section-title">🚀 النموذج الأولي — مهندس برمجيات اول</span><div class="section-line"></div></div>
+
+  <div class="highlight green">
+    <div class="highlight-title">✅ ما تم بناؤه</div>
+    <div class="highlight-body">
+      PWA كامل يعمل بدون إنترنت — HTML واحد مضغوط يُثبَّت على أي جهاز.<br>
+      <strong>إصلاح QA مطبّق:</strong> الصوت يُحمَّل عند الضغط فقط (Web Speech API للعرض، صوت مسجل للإنتاج).<br>
+      يشمل: الجداول، العبارات بـ 6 لغات، قواعد البيت، نظام الشراء، الترخيص.
+    </div>
+  </div>
+
+  <div class="demo-frame-wrap">
+    <div class="demo-frame-label">
+      <span>📱</span>
+      <span>مِفتاح البيت — نموذج أولي تفاعلي (اضغط وجرّب)</span>
+    </div>
+    <iframe class="demo-frame" src="miftah-app.html" title="مفتاح البيت نموذج أولي"></iframe>
+  </div>
+
+  <div class="section-hd"><span class="section-title" style="font-size:.85rem">ما بُني وما تبقى</span><div class="section-line"></div></div>
+  <table>
+    <tr><th>المكوّن</th><th>الحالة</th><th>الملاحظة</th></tr>
+    <tr><td>هيكل PWA</td><td><span class="badge ok">✅ جاهز</span></td><td>manifest + SW</td></tr>
+    <tr><td>واجهة المستخدم</td><td><span class="badge ok">✅ جاهز</span></td><td>فاخرة، responsive</td></tr>
+    <tr><td>العبارات (6 لغات)</td><td><span class="badge ok">✅ عيّنة</span></td><td>يحتاج توسيع</td></tr>
+    <tr><td>الجدول اليومي</td><td><span class="badge ok">✅ جاهز</span></td><td>يُحفظ محلياً</td></tr>
+    <tr><td>Lazy Audio</td><td><span class="badge ok">✅ مطبّق</span></td><td>Speech API للعرض</td></tr>
+    <tr><td>نظام الترخيص</td><td><span class="badge warn">⏳ هيكل</span></td><td>يحتاج كود تفعيل حقيقي</td></tr>
+    <tr><td>صوت مسجل حقيقي</td><td><span class="badge fail">❌ لاحقاً</span></td><td>يحتاج تسجيل بمتحدثين أصليين</td></tr>
+    <tr><td>نظام الدفع</td><td><span class="badge fail">❌ لاحقاً</span></td><td>يحتاج قرار Manus Date5</td></tr>
+    <tr><td>التشفير الكامل</td><td><span class="badge fail">❌ لاحقاً</span></td><td>بعد قرار البنية</td></tr>
+  </table>
+
+  <div class="cta-bar">
+    <div class="cta-title">🗝️ مِفتاح البيت — جاهز للخطوة التالية</div>
+    <div class="cta-sub">الفريق كامل، التحليلات جاهزة، النموذج شغّال.<br>نحتاج قراراتك يا Manus Date5 لنطلق البناء الحقيقي.</div>
+    <div style="font-size:.85rem;color:var(--muted);margin-top:.75rem">النطاق • رقم واتساب • الآيبان • عدد الأجهزة</div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  مِفتاح البيت — وثيقة الفريق | 1 أكتوبر 2026<br>
+  <span style="color:var(--gold)">مهندس برمجيات اول</span> · مدير المنتج · باحث تجربة المستخدم · مهندس برمجيات · ضمان الجودة · مراجع الترجمة
+</footer>
+
+<script>
+function show(id, navEl) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('pane-'+id).classList.add('active');
+  if (navEl && navEl.classList) navEl.classList.add('active');
+  // Update team cards
+  document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Handle team card clicks with proper nav sync
+document.querySelectorAll('.team-card').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.team-card').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>خطة الاختبار (26 حالة — NOT TESTED حتى يُبنى النموذج)</title><style>
+:root{--bg:#fdf7f8;--ink:#3a1f2b;--accent:#8a2a4a;--gold:#b8943f;--card:#fff;--muted:#7a5c68}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Naskh Arabic','Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}
+header{background:linear-gradient(135deg,#5a1a33,#8a2a4a);color:#fff;padding:28px 18px;text-align:center}
+header h1{margin:0;font-size:26px}header p{margin:6px 0 0;opacity:.9;font-size:14px}
+nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #eedbe2;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;justify-content:center;z-index:9}
+nav a{text-decoration:none;color:var(--accent);border:1px solid #eedbe2;border-radius:20px;padding:4px 12px;font-size:13px;background:#fff}
+main{max-width:980px;margin:0 auto;padding:18px}
+.card{background:var(--card);border:1px solid #eedbe2;border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(90,26,51,.05)}
+.card h2{margin-top:0;color:var(--accent);font-size:20px}.card .by{color:var(--muted);font-size:13px;margin-bottom:8px}
+.card a.btn{display:inline-block;margin:4px 6px 4px 0;padding:6px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-size:13px}
+.card a.btn.alt{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0;display:block;overflow-x:auto}th,td{border:1px solid #eedbe2;padding:6px 10px;text-align:right}th{background:#f8e9ee}
+pre{background:#f6eef1;padding:10px;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;font-size:12px}code{font-size:13px}
+.doc{max-width:980px;margin:0 auto;padding:18px}.doc .top{margin-bottom:10px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;background:#f8e9ee;color:var(--accent);margin-inline-start:6px}
+.warn{background:#fff6e5;border:1px solid #f0d9a6;border-radius:10px;padding:10px 14px;font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+</style></head><body><header><h1>خطة الاختبار (26 حالة — NOT TESTED حتى يُبنى النموذج)</h1><p>مشروع غيداء · نتائج الفريق · 1 أكتوبر 2026</p></header><div class="doc"><p class=top><a href=index.html>← الرجوع للصفحة الرئيسية</a></p><h1 id="2026-10-01">خطة اختبار «مِفتاح البيت» + ثغرات في وثيقة المنتج — ضمان الجودة، 2026-10-01</h1>
+<p>الحالة: ما فيه نسخة مبنية للحين، فكل الحالات تحت <strong>NOT TESTED</strong>. هذي الخطة اللي بنختبر عليها أول ما يجهز النموذج، ومعها الأشياء اللي الوثيقة ما حسمتها (ثغرات مواصفات، مو أخطاء).</p>
+<h2 id="_1">أ) ثغرات في الوثيقة لازم تنحسم قبل البناء</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>البند</th>
+<th>المشكلة</th>
+<th>المطلوب قرار</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>R1</td>
+<td>سفاري في الآيفون ما يعطي زر تثبيت أصلاً؛ الشرط «زر يعمل على Safari» ما ينفع يختبر بهالصيغة</td>
+<td>شاشة إرشاد بالصور لسفاري، والزر لكروم بس</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>R1/R8</td>
+<td>في الآيفون، اللي ينفتح في سفاري واللي ينثبت على الشاشة لهم تخزين منفصل. لو تفعّل الترخيص في سفاري ممكن يضيع بعد التثبيت</td>
+<td>التفعيل يصير داخل النسخة المثبتة نفسها، ونختبره على iOS 15 و16 و17</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>R6 ضد «لا خادم دائم»</td>
+<td>حد 2–3 أجهزة يحتاج خادم يعد التفعيلات. بدونه ما فيه حد فعلي</td>
+<td>خادم تفعيل صغير، أو نشيل الحد من الوعد</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>R6</td>
+<td>وش يصير لو مسحت بيانات المتصفح أو غيرت جوالها أو سافرت العاملة؟ هل تنحسب تفعيلة جديدة؟</td>
+<td>سياسة استبدال الجهاز والدعم</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>R5</td>
+<td>النطق بدون نت بلغات العاملات (أمهرية، تاغالوغ، بنغالية، سواحلية) غالباً ما له أصوات مثبتة بالجوالات</td>
+<td>تسجيلات صوتية جاهزة، مو نطق آلي</td>
+</tr>
+<tr>
+<td>G6</td>
+<td>R5 مقابل حد 5MB</td>
+<td>الصوت المسجل لكل جمل الكتاب ممكن يتعدى 5MB لكل لغة</td>
+<td>نقيس حجم فعلي ونعدل الحد أو جودة الضغط</td>
+</tr>
+<tr>
+<td>G7</td>
+<td>R4</td>
+<td>اسم الأيقونة يجي من ملف الإعداد وقت التثبيت؛ يعني لكل عميلة ملف/رابط خاص. والاسم ينقص بعد ~12 حرف على الشاشة</td>
+<td>حد طول الاسم، وكل عميلة لها رابط خاص</td>
+</tr>
+<tr>
+<td>G8</td>
+<td>R7</td>
+<td>عملات الخليج مختلفة: الكويت والبحرين وعمان بثلاث خانات عشرية؛ أرقام عربية/هندية في الإشعارات؛ تاريخ هجري/ميلادي وتوقيت مختلف</td>
+<td>قواعد قراءة لكل دولة</td>
+</tr>
+<tr>
+<td>G9</td>
+<td>R7</td>
+<td>نفس الإشعار يترفع مرتين أو من عميلتين — ما فيه شرط يمنعه</td>
+<td>رقم المرجع ما يقبل إلا مرة وحدة</td>
+</tr>
+<tr>
+<td>G10</td>
+<td>R7</td>
+<td>صور الإشعارات فيها بيانات بنكية؛ وين تنحفظ وكم مدة؟</td>
+<td>سياسة حفظ وحذف (بدون ادعاء قانوني)</td>
+</tr>
+<tr>
+<td>G11</td>
+<td>معايير النجاح</td>
+<td>«جهاز قديم» و«ذاكرة &lt;150MB» بدون جهاز مرجعي ولا طريقة قياس</td>
+<td>نحدد جوالين مرجعيين وطريقة القياس</td>
+</tr>
+<tr>
+<td>G12</td>
+<td>التسعير</td>
+<td>79/99 ريال للسعودية بس؛ باقي الدول بأي عملة وسعر؟</td>
+<td>جدول أسعار لكل دولة</td>
+</tr>
+<tr>
+<td>G13</td>
+<td>—</td>
+<td>الاسترجاع، وفقدان الجهاز، ورقم دعم: ما ذكرت</td>
+<td>قرار من مدير المنتج</td>
+</tr>
+</tbody>
+</table>
+<h2 id="not-tested">ب) حالات الاختبار (كلها NOT TESTED لين يجهز البناء)</h2>
+<h3 id="r1-r2">التثبيت والتشغيل بدون نت (R1, R2)</h3>
+<ul>
+<li>T1 آيفون iOS 15 / 16 / 17: فتح الرابط ← إضافة للشاشة ← وضع الطيران ← إغلاق كامل وفتح ← كل الفصول والصوت تشتغل.</li>
+<li>T2 أندرويد 8 بذاكرة 2GB (كروم): نفس الخطوات + قياس الذاكرة.</li>
+<li>T3 فتح الرابط من داخل واتساب وسناب (متصفح داخلي) — هل يقدر يثبت أو يحتاج «افتح في المتصفح»؟</li>
+<li>T4 أول عرض ≤ 2 ثانية على الجهاز المرجعي القديم (نقيس ثلاث مرات ونكتب الأرقام كلها).</li>
+<li>T5 بعد أسبوع بدون فتح: هل المحتوى لسا موجود (مسح التخزين التلقائي)؟</li>
+<li>T6 الجوال مليان تخزين: وش تشوف المستخدمة؟ رسالة واضحة ولا شاشة بيضا؟</li>
+</ul>
+<h3 id="r3-r4-r8">التخصيص والاسم (R3, R4, R8)</h3>
+<ul>
+<li>T7 النموذج يخلص في ≤ 3 دقائق مع 3 ربات بيت حقيقيات (توقيت فعلي، مو تقدير).</li>
+<li>T8 أسماء: عربي طويل، اسم فيه تشكيل، اسم بحروف مركبة، إيموجي، اسم إنجليزي، اسم فاضي، 40 حرف — على الأيقونة والغلاف والعلامة المائية.</li>
+<li>T9 نفس الاسم يتكتب بطريقتين (بتشكيل وبدونه، أو بترميز مختلف) — هل العلامة المائية والترخيص يتعاملون معه كاسم واحد؟</li>
+<li>T10 العلامة المائية تظهر في كل صفحة وما تنشال بحذف عنصر من الصفحة.</li>
+</ul>
+<h3 id="r6-r8">التفعيل وحد الأجهزة (R6, R8)</h3>
+<ul>
+<li>T11 تفعيل جهاز ثاني بالرمز ← يشتغل باسم البيت ولغة العاملة.</li>
+<li>T12 الجهاز الرابع يرفض برسالة مفهومة.</li>
+<li>T13 ننسخ ملفات الكتاب من جهاز مفعل لجهاز ثاني — هل يفتح؟ (المتوقع: لا، أو يفتح باسم المشترية الأصلية)</li>
+<li>T14 نفس الرمز يستخدم من جهازين بنفس اللحظة.</li>
+<li>T15 مسح بيانات المتصفح ثم إعادة التفعيل — حسب السياسة في G4.</li>
+</ul>
+<h3 id="r7">بوابة الشراء (R7)</h3>
+<ul>
+<li>T16 إشعار صحيح من بنك سعودي ← فحص آلي ← تأكيد Manus بضغطة ← فتح التحميل.</li>
+<li>T17 إشعار بمبلغ أقل، أو تاريخ قديم، أو مرجع ناقص ← يرفض أو يحوّل للمراجعة.</li>
+<li>T18 نفس الإشعار مرتين ← المرة الثانية ترفض.</li>
+<li>T19 إشعار معدل بالفوتوشوب (رقم المبلغ متغير) ← لازم يوصل للمراجعة البشرية، ما ينفتح تلقائياً.</li>
+<li>T20 إشعارات من الكويت/البحرين/عمان بثلاث خانات عشرية، ومن الإمارات وقطر.</li>
+<li>T21 إشعار بأرقام هندية (٠١٢٣) وتاريخ هجري.</li>
+<li>T22 رابط التحميل: هل يقدر أحد يفتحه بدون ما يدفع لو عرف الرابط أو غيّر رقم الطلب فيه؟</li>
+<li>T23 طلب عميلة ما ينكشف لعميلة ثانية (اسم، صورة إشعار).</li>
+</ul>
+<h3 id="r5-r9">الترجمة والمحتوى (R5, R9)</h3>
+<ul>
+<li>T24 كل جملة سلامة لها صوت يشتغل بدون نت، ونفس المعنى في العربي ولغة العاملة.</li>
+<li>T25 كل لغة عليها توقيع مراجع بشري قبل البيع.</li>
+<li>T26 اتجاه الكتابة: العربي يمين لليسار، لغة العاملة صح، ما فيه نص متداخل.</li>
+</ul>
+<h2 id="_2">ج) أشياء ما راح تنختبر في البداية (لازم تنعرف)</h2>
+<ul>
+<li>اختبار حماية متقدم (محاولة كسر التشفير) واختبار ضغط على الخادم — ما نسويه على الموقع الحقيقي بدون إذن صريح.</li>
+<li>أي دولة أو لغة ما توفر لها جهاز أو إشعار حقيقي، تنكتب NOT TESTED في التقرير.</li>
+</ul>
+<h2 id="_3">د) شرط البيع من جهتي</h2>
+<p>ما أعطي «جاهز للبيع» إلا بعد ما تنجح T1، T2، T3، T11، T13، T16، T18، T19، T22، T24 على أجهزة وإشعارات حقيقية، وأكتب جنب كل وحدة الدليل (لقطة شاشة أو تسجيل).</p></div><footer>مشروع غيداء — وثائق العمل الداخلية</footer></body></html>

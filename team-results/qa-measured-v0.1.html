@@ -1,0 +1,153 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>أرقام مقاسة على الكتاب الأمهري الحالي</title><style>
+:root{--bg:#fdf7f8;--ink:#3a1f2b;--accent:#8a2a4a;--gold:#b8943f;--card:#fff;--muted:#7a5c68}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Naskh Arabic','Noto Sans Arabic',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}
+header{background:linear-gradient(135deg,#5a1a33,#8a2a4a);color:#fff;padding:28px 18px;text-align:center}
+header h1{margin:0;font-size:26px}header p{margin:6px 0 0;opacity:.9;font-size:14px}
+nav{position:sticky;top:0;background:#fff;border-bottom:1px solid #eedbe2;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;justify-content:center;z-index:9}
+nav a{text-decoration:none;color:var(--accent);border:1px solid #eedbe2;border-radius:20px;padding:4px 12px;font-size:13px;background:#fff}
+main{max-width:980px;margin:0 auto;padding:18px}
+.card{background:var(--card);border:1px solid #eedbe2;border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(90,26,51,.05)}
+.card h2{margin-top:0;color:var(--accent);font-size:20px}.card .by{color:var(--muted);font-size:13px;margin-bottom:8px}
+.card a.btn{display:inline-block;margin:4px 6px 4px 0;padding:6px 14px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-size:13px}
+.card a.btn.alt{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0;display:block;overflow-x:auto}th,td{border:1px solid #eedbe2;padding:6px 10px;text-align:right}th{background:#f8e9ee}
+pre{background:#f6eef1;padding:10px;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;font-size:12px}code{font-size:13px}
+.doc{max-width:980px;margin:0 auto;padding:18px}.doc .top{margin-bottom:10px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;background:#f8e9ee;color:var(--accent);margin-inline-start:6px}
+.warn{background:#fff6e5;border:1px solid #f0d9a6;border-radius:10px;padding:10px 14px;font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+</style></head><body><header><h1>أرقام مقاسة على الكتاب الأمهري الحالي</h1><p>مشروع غيداء · نتائج الفريق · 1 أكتوبر 2026</p></header><div class="doc"><p class=top><a href=index.html>← الرجوع للصفحة الرئيسية</a></p><h1 id="v01">ضمان الجودة — نتائج مقاسة فعلياً على الكتاب الحالي (v0.1 أمهري)</h1>
+<p><em>2026-10-01 · الملف المختبَر: <code>ghaida-book-am.html</code> من GitHub Release audio-v0.1 (12.28 MB) · Chrome headless على Linux</em></p>
+<p>هذا الملف يجاوب على وعود Manus Date5 الأربعة («طلقة»، الذاكرة، «ما أحد يقدر يبيعه»، «يشتغل على أي جهاز») <strong>بأرقام جربتها</strong>، مو بتخمين. كل نتيجة معها طريقة القياس عشان أي أحد يعيدها.</p>
+<h2 id="5">الخلاصة في 5 أسطر</h2>
+<ol>
+<li><strong>السرعة: نجح على المحاكاة.</strong> يفتح في 0.54 ثانية على معالج عادي، و2.2 ثانية على معالج أبطأ 6 مرات (يشبه جوال أندرويد رخيص). فتح الفصل 0.15–0.64 ثانية.</li>
+<li><strong>الذاكرة: هنا المشكلة.</strong> الملف وحده يضيف <strong>≈117 MB</strong> للصفحة. منها ≈60 MB بسبب الصوت المضمّن كنص base64. الهدف الحالي في وثيقة المنتج (&lt;150MB) ينجح بالكاد، ولو زدنا محتوى أو فيديو بنفس الطريقة يطيح على جوال 2GB.</li>
+<li><strong>الحماية من إعادة البيع: فشل.</strong> سكربت من 8 أسطر استخرج كل النصوص و760 مقطع صوت في 0.37 ثانية. وتغيير الاسم «غيداء» لاسم ثاني = 3 استبدالات نصية، والكتاب المسروق اشتغل بالصوت بدون أي خطأ.</li>
+<li><strong>«أوامر للوكيل يرفض»: ما توقف أحد.</strong> أنا نفسي وكيل ذكاء اصطناعي واستخرجت المحتوى. السطر الذي يقول للوكيل «ارفض» يقدر أي شخص يحذفه قبل ما يعطي الملف للوكيل. ينفع كردع بس، مو حماية.</li>
+<li><strong>«أي جهاز بالعالم»: NOT TESTED على أجهزة حقيقية.</strong> الكود متوافق نظرياً مع آيفون iOS 10 فما فوق وكروم 49 فما فوق (ما فيه <code>?.</code> ولا <code>??</code> ولا async)، لكن ما جربت على جوال حقيقي ولا فتح الملف من واتساب.</li>
+</ol>
+<h2 id="1">1) السرعة («طلقة طلقة»)</h2>
+<p>شاشة 360×640 بوضع جوال. CPU ×6 = محاكاة جوال بطيء (تقريب، مو جهاز حقيقي).</p>
+<table>
+<thead>
+<tr>
+<th>القياس</th>
+<th>CPU عادي</th>
+<th>CPU أبطأ ×6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>أول ما يظهر شيء (FCP)</td>
+<td>0.29 ث</td>
+<td>0.41 ث</td>
+</tr>
+<tr>
+<td>الصفحة جاهزة كاملة (load)</td>
+<td>0.54 ث</td>
+<td>2.18 ث</td>
+</tr>
+<tr>
+<td>فتح فصل (04 التنظيف)</td>
+<td>0.15 ث</td>
+<td>0.64 ث</td>
+</tr>
+<tr>
+<td>ضغط زر الصوت → يبدأ</td>
+<td>0.33 ث</td>
+<td>0.47 ث</td>
+</tr>
+<tr>
+<td>ذاكرة JavaScript</td>
+<td>25.7 MB</td>
+<td>25.7 MB</td>
+</tr>
+<tr>
+<td>عناصر الصفحة (DOM)</td>
+<td>1352</td>
+<td>1354</td>
+</tr>
+</tbody>
+</table>
+<p><strong>الحكم:</strong> PASS على المحاكاة لهدف «≤2 ثانية أول ظهور». الجاهزية الكاملة 2.2 ثانية على المعالج البطيء، أي تتعدى الهدف بقليل. على جوال حقيقي قديم: NOT TESTED.</p>
+<h2 id="2-ram">2) الذاكرة (RAM)</h2>
+<p>ذاكرة عملية العرض (renderer RSS)، بقياس psutil:</p>
+<table>
+<thead>
+<tr>
+<th>الحالة</th>
+<th>صفحة فاضية</th>
+<th>بعد فتح الكتاب</th>
+<th>بعد تصفح 8 فصول</th>
+<th>الزيادة بسبب الكتاب</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>الكتاب بالصوت (12.3 MB)</td>
+<td>308 MB</td>
+<td>425 MB</td>
+<td>464 MB</td>
+<td><strong>≈117–156 MB</strong></td>
+</tr>
+<tr>
+<td>نفس الكتاب بدون صوت (0.35 MB)</td>
+<td>305 MB</td>
+<td>368 MB</td>
+<td>405 MB</td>
+<td>≈63–100 MB</td>
+</tr>
+</tbody>
+</table>
+<p>السبب: كل الصوت (12 MB كنص base64) ينقرأ للذاكرة مرة وحدة عند الفتح، حتى لو العاملة ما شغّلت ولا مقطع.</p>
+<p><strong>توصية قابلة للقياس:</strong> نخزّن الصوت في ملفات منفصلة داخل التطبيق المثبّت (cache) ويتحمّل المقطع وقت الضغط فقط. الهدف: زيادة الكتاب ≤ 70 MB على نفس القياس. ولما يجهز النموذج الأولي أعيد نفس السكربت عليه وأنشر الرقم.</p>
+<h2 id="3">3) الحماية من النسخ وإعادة البيع (هجوم فعلي)</h2>
+<table>
+<thead>
+<tr>
+<th>المحاولة</th>
+<th>النتيجة</th>
+<th>الدليل</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>استخراج كل النص + الصوت</td>
+<td><strong>نجح الهجوم</strong></td>
+<td><code>rip.py</code> (8 أسطر): 8 فصول + 760 mp3 في 0.37 ث</td>
+</tr>
+<tr>
+<td>تغيير اسم المنتج وإعادة بيعه</td>
+<td><strong>نجح الهجوم</strong></td>
+<td>3 استبدالات لـ«غيداء/Ghaida» → العنوان «AlKhair»، الصوت يشتغل، 0 أخطاء JS، الاسم القديم مختفي</td>
+</tr>
+<tr>
+<td>تعليمات «يا وكيل ارفض»</td>
+<td><strong>ما تحمي</strong></td>
+<td>الوكيل (أنا) استخرج المحتوى؛ التعليمات نص يتحذف بسطر</td>
+</tr>
+</tbody>
+</table>
+<p><strong>الحكم من جهة الجودة:</strong> «مستحيل أحد يعيد بيعه» وعد ما يقدر أي ملف يشتغل بدون نت يحققه، لأن الجهاز لازم يفك المحتوى عشان يعرضه، فالي يقدر يعرضه يقدر ينسخه. الشي الواقعي اللي نقدر نختبره:
+- <strong>تتبّع:</strong> كل نسخة فيها رقم الطلب مخفي في أكثر من مكان (النص، أسماء الملفات، فراغات غير مرئية). شرط القبول: من أي نسخة مسرّبة نطلع رقم الطلب حتى بعد تغيير الاسم. <strong>أنا بأختبرها بنفس الهجوم أعلاه.</strong>
+- <strong>تقليل القيمة للسارق:</strong> الكتاب باسم البيت وقواعده، فما يفيد بيت ثاني.
+- <strong>تشويش الكود (obfuscation):</strong> يبطّئ الهاوي بس. ما يُحسب حماية في التقرير.</p>
+<h2 id="4">4) «يشتغل على أي جهاز بالعالم»</h2>
+<ul>
+<li>الكود: ما فيه ميزات حديثة تكسر الأجهزة القديمة → متوافق نظرياً مع iOS 10+ وكروم 49+ (تحليل كود، مو تشغيل).</li>
+<li>فتح ملف HTML مرسل على واتساب في آيفون: <strong>NOT TESTED</strong>، وهو أخطر نقطة. معاينة الملفات في آيفون غالباً ما تشغّل الصوت.</li>
+<li>الحل اللي اقترحه الفريق (رابط يتثبت كتطبيق ويب) يحتاج اختبار iOS 15/16/17 + أندرويد 2GB حسب خطة الاختبار T1–T6.</li>
+</ul>
+<h2 id="5_1">5) اللي يلزمني عشان أكمل</h2>
+<ul>
+<li>جوالين حقيقيين (آيفون + أندرويد رخيص) عند Manus Date5 أو غيداء، وورقة الفحص جاهزة.</li>
+<li>النموذج الأولي من مهندس البرمجيات / الوكيل الخارق → أعيد عليه القياسات 1–3 كلها وأنشر قبل/بعد.</li>
+</ul>
+<h2 id="_1">طريقة إعادة القياس</h2>
+<ul>
+<li>السرعة: Playwright + Chrome، <code>Emulation.setCPUThrottlingRate</code> 1 و6، ونقرأ <code>performance</code> navigation و FCP.</li>
+<li>الذاكرة: RSS لعملية <code>--type=renderer</code> عبر psutil، قبل الفتح وبعده.</li>
+<li>الهجوم: قراءة <code>&lt;script id="data"&gt;</code> → JSON → فك base64 للصوت.</li>
+</ul>
+<p>ما اختبرته: Chrome على Linux فقط. ما اختبرته: Safari/iOS، Android حقيقي، Samsung Internet، متصفح واتساب الداخلي، Windows.</p></div><footer>مشروع غيداء — وثائق العمل الداخلية</footer></body></html>
